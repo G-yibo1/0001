@@ -1,0 +1,168 @@
+{
+ "storefront": "storefront.jpg",
+ "interior": "interior.jpg",
+ "frames": [
+  {
+   "file": "frames/f01.jpg",
+   "srcPage": "p11_x295.jpeg"
+  },
+  {
+   "file": "frames/f02.jpg",
+   "srcPage": "p12_x299.jpeg"
+  },
+  {
+   "file": "frames/f03.jpg",
+   "srcPage": "p13_x302.jpeg"
+  },
+  {
+   "file": "frames/f04.jpg",
+   "srcPage": "p14_x305.jpeg"
+  },
+  {
+   "file": "frames/f05.jpg",
+   "srcPage": "p15_x308.jpeg"
+  },
+  {
+   "file": "frames/f06.jpg",
+   "srcPage": "p16_x311.jpeg"
+  },
+  {
+   "file": "frames/f07.jpg",
+   "srcPage": "p17_x314.jpeg"
+  },
+  {
+   "file": "frames/f08.jpg",
+   "srcPage": "p18_x317.jpeg"
+  },
+  {
+   "file": "frames/f09.jpg",
+   "srcPage": "p19_x320.jpeg"
+  },
+  {
+   "file": "frames/f10.jpg",
+   "srcPage": "p20_x323.jpeg"
+  },
+  {
+   "file": "frames/f11.jpg",
+   "srcPage": "p21_x326.jpeg"
+  },
+  {
+   "file": "frames/f12.jpg",
+   "srcPage": "p22_x329.jpeg"
+  },
+  {
+   "file": "frames/f13.jpg",
+   "srcPage": "p23_x332.jpeg"
+  },
+  {
+   "file": "frames/f14.jpg",
+   "srcPage": "p24_x335.jpeg"
+  },
+  {
+   "file": "frames/f15.jpg",
+   "srcPage": "p25_x338.jpeg"
+  },
+  {
+   "file": "frames/f16.jpg",
+   "srcPage": "p26_x341.jpeg"
+  },
+  {
+   "file": "frames/f17.jpg",
+   "srcPage": "p27_x344.jpeg"
+  },
+  {
+   "file": "frames/f18.jpg",
+   "srcPage": "p28_x347.jpeg"
+  },
+  {
+   "file": "frames/f19.jpg",
+   "srcPage": "p29_x350.jpeg"
+  },
+  {
+   "file": "frames/f20.jpg",
+   "srcPage": "p30_x353.jpeg"
+  },
+  {
+   "file": "frames/f21.jpg",
+   "srcPage": "p31_x356.jpeg"
+  },
+  {
+   "file": "frames/f22.jpg",
+   "srcPage": "p32_x359.jpeg"
+  },
+  {
+   "file": "frames/f23.jpg",
+   "srcPage": "p33_x362.jpeg"
+  },
+  {
+   "file": "frames/f24.jpg",
+   "srcPage": "p34_x365.jpeg"
+  },
+  {
+   "file": "frames/f25.jpg",
+   "srcPage": "p35_x368.jpeg"
+  },
+  {
+   "file": "frames/f26.jpg",
+   "srcPage": "p36_x371.jpeg"
+  },
+  {
+   "file": "frames/f27.jpg",
+   "srcPage": "p37_x374.jpeg"
+  },
+  {
+   "file": "frames/f28.jpg",
+   "srcPage": "p39_x378.jpeg"
+  },
+  {
+   "file": "frames/f29.jpg",
+   "srcPage": "p40_x381.jpeg"
+  },
+  {
+   "file": "frames/f30.jpg",
+   "srcPage": "p41_x384.jpeg"
+  },
+  {
+   "file": "frames/f31.jpg",
+   "srcPage": "p42_x387.jpeg"
+  },
+  {
+   "file": "frames/f32.jpg",
+   "srcPage": "p43_x390.jpeg"
+  },
+  {
+   "file": "frames/f33.jpg",
+   "srcPage": "p44_x393.jpeg"
+  },
+  {
+   "file": "frames/f34.jpg",
+   "srcPage": "p46_x397.jpeg"
+  },
+  {
+   "file": "frames/f35.jpg",
+   "srcPage": "p48_x401.jpeg"
+  },
+  {
+   "file": "frames/f36.jpg",
+   "srcPage": "p49_x404.jpeg"
+  }
+ ],
+ "npc": {
+  "npc-waiter.png": [
+   87,
+   135
+  ],
+  "npc-cashier.png": [
+   87,
+   133
+  ],
+  "npc-granny.png": [
+   96,
+   186
+  ],
+  "npc-hero.png": [
+   58,
+   64
+  ]
+ }
+}

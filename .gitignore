@@ -1,0 +1,17 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local workspaces and dependencies
+.workbuddy/
+node_modules/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Local environment secrets
+.env
+.env.*

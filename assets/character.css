@@ -1,0 +1,32 @@
+/* 角色创建：星露谷式像素纸娃娃与木纹角色卡 */
+.creator-visual{background:linear-gradient(rgba(38,61,53,.14),rgba(38,61,53,.52)),url('video_cover.jpg') center/cover!important}
+.character-preview{width:min(330px,82%);height:452px;border:4px solid #5b3d27!important;border-radius:5px!important;background:#e8d5a3!important;box-shadow:0 0 0 3px #b98a4e,10px 12px 0 rgba(43,35,24,.38)!important}
+.character-preview:before{content:"CHARACTER · 角色卡";top:9px;left:12px;padding:4px 7px;border:2px solid #6b472d;background:#774a30;color:#fff0cc;text-shadow:none;font:700 9px monospace;letter-spacing:.08em}
+.preview-sky{background:linear-gradient(180deg,transparent 0 68%,rgba(62,122,78,.18) 68%),repeating-linear-gradient(0deg,rgba(255,255,255,.13) 0 2px,transparent 2px 32px),repeating-linear-gradient(90deg,#c6d3a8 0 32px,#9db47e 32px 64px)!important}
+.preview-sky:after{content:"";position:absolute;inset:48px 16px 104px;border:2px solid rgba(73,54,36,.28);background:rgba(245,233,200,.34);box-shadow:inset 0 0 0 5px rgba(255,248,220,.22)}
+.preview-avatar{width:242px!important;height:310px!important;top:48%!important;filter:drop-shadow(4px 6px 0 rgba(73,54,36,.18)) var(--avatar-filter,none)}
+.avatar-sheet,.compare-person,.dialog-avatar,.walk-player-sprite{background-image:url('characters/daily-female-front.png');background-repeat:no-repeat;background-size:contain;background-position:center bottom;image-rendering:pixelated}
+.avatar-sheet[data-gender="男性"],.compare-person[data-gender="男性"],.dialog-avatar[data-gender="男性"],.walk-player-sprite[data-gender="男性"]{background-image:url('characters/daily-male-front.png');background-position:center bottom}
+.avatar-layer,.preview-avatar[data-outfit="street"] .avatar-top-layer,.preview-avatar[data-outfit="street"] .avatar-pants-layer,.preview-avatar[data-outfit="street"] .avatar-shoes-layer{display:none!important}
+.avatar-accessory{top:20%;right:26%}
+.avatar-preview-name{bottom:48px;padding:7px;border:2px solid #6a482f;background:#f5e5bd;color:#493624;box-shadow:2px 2px 0 rgba(73,54,36,.18);font-size:10px}
+.avatar-zoom-note{top:11px;right:11px;border:2px solid #493624;background:#3e7a4e}
+.character-turnaround{position:absolute;z-index:5;left:12px;right:12px;bottom:9px;height:34px;display:flex;justify-content:center;gap:5px}
+.character-turnaround[hidden]{display:none}
+.turnaround-view{position:relative;width:54px;height:34px;display:grid;place-items:center;border:2px solid #765236;background:#f4e4bc;overflow:hidden}
+.turnaround-view img{width:32px;height:30px;object-fit:contain;image-rendering:pixelated}
+.turnaround-view span{position:absolute;left:2px;bottom:0;color:#65472f;font:700 7px monospace}
+.creator-panel{background-color:#f2e3bf!important;background-image:repeating-linear-gradient(0deg,rgba(100,77,43,.045) 0 2px,transparent 2px 6px)!important}
+.creator-panel h1{color:#5c3c27;text-shadow:2px 2px 0 #e0c893}
+.field,.feature{padding:7px 8px;border:2px solid rgba(156,118,64,.28);background:rgba(255,247,229,.34)}
+.field label,.feature>label{color:#694833;letter-spacing:.02em}
+.option-row button,.chip-row button,.outfit-option,.accessory-option{box-shadow:2px 2px 0 rgba(93,66,37,.13)}
+.option-row button.selected,.chip-row button.selected,.outfit-option.selected{border-color:#2c5c3a!important;background:#c6d3a8!important;box-shadow:inset 0 0 0 2px #edf0d1,2px 2px 0 rgba(63,77,45,.22)}
+.outfit-option{grid-template-columns:64px 1fr;min-height:66px;border-color:#a88756;background:#f9edce}
+.outfit-art{width:60px;height:54px;border:2px solid #b3925e;background:#d9ddb5}
+.daily-art img{width:100%;height:100%;max-width:100%;object-fit:contain;object-position:center bottom}
+.compare-person{inset:2px}
+.dialog-avatar{width:58px;height:66px}
+.walk-player-sprite{background-size:contain;background-position:center bottom}
+.primary-btn{background:#3e7a4e!important;border-color:#493624!important;box-shadow:inset 0 0 0 2px #6b9e4e,4px 4px 0 rgba(57,42,27,.26)!important}
+@media(max-width:640px){.character-preview{height:154px;width:154px}.character-preview:before{font-size:6px;top:4px;left:4px;padding:2px 3px}.preview-avatar{width:105px!important;height:116px!important;top:45%!important}.avatar-preview-name{bottom:4px;font-size:7px;padding:3px}.character-turnaround{display:none}.avatar-zoom-note{top:4px;right:4px;font-size:7px}.preview-sky:after{inset:28px 8px 28px}.field,.feature{padding:5px}}

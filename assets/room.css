@@ -1,0 +1,30 @@
+/* 全屏 L4 室内：场景即游戏画面，对话仅以底部横条悬浮 */
+.room-stage{position:absolute;inset:0;overflow:hidden;background:#e8d5a3;touch-action:none;cursor:crosshair;animation:room-enter .32s steps(6,end)}
+@keyframes room-enter{from{opacity:0;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}
+.room-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;pointer-events:none}
+.room-lighting{position:absolute;inset:0;background:rgba(233,184,92,.07);box-shadow:inset 0 0 110px rgba(86,50,26,.18);pointer-events:none;mix-blend-mode:soft-light}
+.room-player,.room-actor{position:absolute;width:clamp(46px,4.8vw,70px);height:clamp(76px,13vh,112px);transform:translateX(-50%);filter:drop-shadow(3px 4px 0 rgba(48,38,26,.3));pointer-events:none}
+.room-player img,.room-actor img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;image-rendering:pixelated;transform-origin:center bottom}
+.room-player[data-facing="right"] img{transform:scaleX(-1)}
+.room-player.is-walking img{animation:room-step .29s steps(2,end) infinite}
+.room-player span,.room-actor span{position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);padding:2px 6px;border:1px solid #63452f;border-radius:3px;background:rgba(247,239,219,.92);color:#4b3526;font-size:9px;font-weight:900;white-space:nowrap}
+.room-actor{z-index:90;width:clamp(42px,4.2vw,62px);height:clamp(68px,11.5vh,98px)}
+.room-actor span{opacity:0;transition:opacity .15s}
+.room-actor:hover span{opacity:1}
+@keyframes room-step{50%{translate:0 -3px}}
+.room-scene-label{position:absolute;z-index:1000;left:18px;top:76px;display:flex;flex-direction:column;gap:3px;padding:8px 12px;border:3px solid #63452f;border-radius:4px;background:rgba(242,225,187,.94);box-shadow:4px 4px 0 rgba(62,40,25,.3);color:#4b3526;pointer-events:none}
+.room-scene-label b{font:800 12px monospace}.room-scene-label span{font-size:9px}
+.room-exit{position:absolute;z-index:1001;right:18px;top:78px;min-height:34px;padding:0 11px;border:3px solid #63452f;border-radius:4px;background:#f2e1bb;color:#4b3526;font-weight:800;box-shadow:3px 3px 0 rgba(62,40,25,.3)}
+.event-overlay.room-mode{background:transparent!important;pointer-events:none}
+.event-overlay.room-mode .event-dialog{width:100%!important;height:32svh;min-height:170px;max-height:32svh!important;pointer-events:auto;background-color:rgba(242,225,187,.97)!important}
+.event-overlay.room-mode .event-scene-wrap{display:none!important}
+.event-overlay.room-mode .event-body{grid-template-columns:76px minmax(0,1fr)!important;align-items:center;padding:6px 16px 3px!important;gap:9px!important}
+.event-overlay.room-mode .event-options{grid-column:2!important;padding:3px 16px 6px!important}
+.event-overlay.room-mode .event-avatars{min-height:70px;max-height:76px;overflow:hidden}
+.event-overlay.room-mode .event-avatars .dialog-avatar{display:none}
+.event-overlay.room-mode .event-npc-avatar{width:70px;height:76px;object-fit:contain;object-position:center bottom}
+.event-overlay.room-mode .event-line{min-height:28px!important;line-height:1.45!important}
+.event-overlay.room-mode .event-npc-avatar{object-fit:contain;image-rendering:pixelated}
+.event-overlay.room-mode .event-dialog .event-line{font-size:13px!important}
+@media(max-width:700px){.room-scene-label{left:8px;top:66px}.room-exit{right:8px;top:66px}.room-scene-label span{display:none}.event-overlay.room-mode .event-dialog{max-height:45svh}.room-player{width:46px;height:78px}.room-actor{width:40px;height:68px}}
+@media(prefers-reduced-motion:reduce){.room-player.is-walking img{animation:none}}

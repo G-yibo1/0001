@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>港硕回忆录 · 开始游戏</title>
+<style>#gameLaunchFrame{position:fixed;z-index:9999;inset:0;width:100%;height:100%;border:0;background:#E8D5A3}</style>
+<style>
+:root{
+  --ink:#1D2B2A;--deep:#183A38;--teal:#3D7773;--paper:#F6F1E7;--canvas:#DBE5DE;
+  --card:#FFFFFF;--gold:#D69D50;--red:#A75C48;--harbor:#0E7C9B;--night:#242C45;
+  --muted:#657773;--line:#DDE3DB;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+  --sans:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--canvas);overflow:hidden}
+button{font:inherit;cursor:pointer}
+.app{height:100vh;display:grid;grid-template-columns:88px 1fr}
+.rail{z-index:20;background:var(--deep);color:#fff;padding:16px 10px 12px;display:flex;flex-direction:column;align-items:center}
+.brand{width:60px;height:60px;border:1px solid rgba(255,255,255,.38);border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:13px;line-height:1.2;text-align:center}
+.railnav{margin-top:26px;width:100%;display:flex;flex-direction:column;gap:6px}
+.navbtn{border:0;background:transparent;color:#AFC5C1;border-radius:12px;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:.18s}
+.navbtn span:first-child{font-size:19px}.navbtn span:last-child{font-size:11px}
+.navbtn:hover{background:rgba(255,255,255,.08);color:#fff}
+.navbtn.active{background:#DCE7D9;color:var(--deep)}
+.railbottom{margin-top:auto;width:100%;text-align:center;color:#91AAA6;font-size:11px;line-height:1.6}
+.prog{height:5px;border-radius:4px;background:rgba(255,255,255,.16);margin:6px 2px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--gold);width:0;transition:.35s}
+.main{position:relative;height:100vh;overflow:hidden}
+.screen{position:absolute;inset:0;display:none;overflow:auto}
+.screen.active{display:block}
+.pad{padding:30px 38px 46px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);font-weight:700}
+h1.title{font-family:var(--serif);font-size:32px;margin:6px 0 6px}
+p.sub{margin:0 0 22px;color:var(--muted);font-size:13px;line-height:1.7}
+
+/* ---------- cover ---------- */
+#cover{background:var(--deep);color:#fff}
+.coverbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.42;filter:saturate(.85)}
+.covermask{position:absolute;inset:0;background:linear-gradient(100deg,rgba(15,38,36,.96) 0%,rgba(15,38,36,.72) 45%,rgba(15,38,36,.25) 100%),linear-gradient(0deg,rgba(15,38,36,.85),transparent 55%)}
+.coverin{position:relative;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 7% 0 6%}
+.coverin .eyebrow{color:#9CC3B4}
+.coverin h1{font-family:var(--serif);font-size:62px;margin:10px 0 4px;letter-spacing:.06em}
+.coverin h2{font-family:var(--serif);font-weight:500;font-size:24px;margin:0 0 18px;color:#D8C9A6}
+.coverin p{max-width:520px;line-height:1.95;color:#C4D6D1;font-size:14px;margin:0 0 26px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}
+.stat{border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:12px 20px;min-width:118px;background:rgba(255,255,255,.05);backdrop-filter:blur(6px)}
+.stat b{display:block;font-family:var(--serif);font-size:30px;color:var(--gold)}
+.stat span{font-size:12px;color:#A9C4BE}
+.cta{align-self:flex-start;border:0;border-radius:30px;background:var(--gold);color:#3A2A12;font-weight:700;padding:14px 30px;font-size:15px;box-shadow:0 10px 26px rgba(0,0,0,.28);transition:.2s}
+.cta:hover{transform:translateY(-2px);background:#E4AE63}
+.coverfoot{position:absolute;left:6%;bottom:22px;font-size:12px;color:#8FAEA7;letter-spacing:.04em}
+
+/* ---------- map ---------- */
+.mapwrap{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;align-items:start}
+.mapframe{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 12px 30px rgba(33,62,58,.08)}
+.mapframe img{width:100%;display:block;border-radius:12px;cursor:zoom-in}
+.map-zoom-overlay{position:fixed;z-index:90;inset:0;display:none;align-items:center;justify-content:center;padding:35px;background:rgba(12,20,19,.93)}
+.map-zoom-overlay.on{display:flex}
+.map-zoom-overlay img{max-width:100%;max-height:100%;object-fit:contain;image-rendering:pixelated}
+.map-zoom-overlay button{position:absolute;top:15px;right:18px;width:42px;height:42px;border:2px solid rgba(255,255,255,.55);background:rgba(255,255,255,.08);color:#fff;font-size:25px;cursor:pointer}
+.mapnote{font-size:12px;color:var(--muted);padding:10px 6px 2px;line-height:1.7}
+.regionlist{display:grid;gap:12px}
+.region{display:grid;grid-template-columns:96px 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;text-align:left;transition:.2s}
+.region:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 10px 24px rgba(33,62,58,.1)}
+.region img{width:96px;height:66px;object-fit:cover;border-radius:10px}
+.region strong{font-family:var(--serif);font-size:19px;display:block}
+.region small{color:var(--muted);font-size:12px;display:block;margin-top:3px;line-height:1.5}
+.region .cnt{font-size:11px;color:var(--teal);font-weight:700;margin-top:5px;display:inline-block}
+.region .go{color:var(--gold);font-size:20px;padding-right:8px}
+
+/* ---------- scenes / assets ---------- */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:20px;padding:7px 14px;font-size:12px;transition:.18s}
+.chip:hover{border-color:var(--teal);color:var(--ink)}
+.chip.on{background:var(--deep);color:#fff;border-color:var(--deep)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-align:left;padding:0;position:relative;transition:.2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(33,62,58,.14);border-color:var(--teal)}
+.card .ph{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#0e1413}
+.card .bd{padding:10px 12px 12px}
+.card .nm{font-weight:700;font-size:14px;display:block}
+.card .mt{font-size:11px;color:var(--muted);margin-top:4px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tag{font-size:10px;border-radius:12px;padding:2px 8px;background:#EDF1EA;color:#5F7A72}
+.tag.r{background:#F6E9E2;color:var(--red)}
+.tag.n{background:#E4E6F0;color:var(--night)}
+.num{position:absolute;top:8px;left:8px;background:rgba(24,58,56,.86);color:#fff;font-size:10px;border-radius:8px;padding:3px 7px;letter-spacing:.05em}
+.done{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#fff;display:none;place-items:center;font-size:12px}
+.card.visited .done{display:grid}
+.dots{display:inline-flex;gap:4px}
+.dots i{width:11px;height:11px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.08)}
+.hexrow{font-family:Consolas,monospace;font-size:11px;color:var(--muted);margin-top:6px}
+.empty{padding:40px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ---------- journal ---------- */
+.jgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.panel h3{font-family:var(--serif);font-size:19px;margin:0 0 12px}
+.panel h3 small{font-family:var(--sans);font-size:11px;color:var(--muted);font-weight:400;margin-left:8px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:13px;line-height:1.6}
+.kv b{color:var(--teal);font-weight:700;white-space:nowrap}
+.lvl{display:grid;gap:8px}
+.lvl div{border-left:3px solid var(--gold);padding:6px 0 6px 12px;font-size:13px;line-height:1.6}
+.lvl b{font-family:Consolas,monospace;color:var(--red);margin-right:6px}
+.months{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.month{border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:9px 6px;text-align:center;font-size:12px}
+.month b{display:block;font-family:var(--serif);font-size:16px}
+.month.on{background:var(--deep);color:#fff;border-color:var(--deep)}
+.mdetail{margin-top:12px;background:var(--paper);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.8}
+.mdetail b{color:var(--red)}
+.xp{display:grid;gap:10px}
+.xp .bar{height:8px;border-radius:6px;background:#EDF1EA;overflow:hidden;margin-top:5px}
+.xp .bar i{display:block;height:100%;background:var(--teal)}
+.xp .row{font-size:13px;display:flex;justify-content:space-between}
+.titles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--paper)}
+.tcard b{font-family:var(--serif);color:var(--red)}
+.tcard small{display:block;color:var(--muted);margin-top:4px;line-height:1.5}
+.log{list-style:none;margin:0;padding:0;font-size:13px;max-height:230px;overflow:auto}
+.log li{padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.6}
+.log li span{color:var(--teal);font-family:Consolas,monospace;font-size:11px;margin-right:8px}
+
+/* ---------- palette ---------- */
+.palwrap{display:grid;grid-template-columns:1fr 1.15fr;gap:22px;align-items:start}
+.palrow{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line)}
+.swatch{width:44px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,.08)}
+.palrow b{font-size:13px;display:block}
+.palrow small{color:var(--muted);font-size:11px;line-height:1.5;display:block}
+.hex{font-family:Consolas,monospace;font-size:12px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:5px 9px}
+.hex:hover{background:var(--deep);color:#fff}
+.palgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.palitem{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card)}
+.palitem .nm{font-size:12px;font-weight:700;margin-bottom:6px}
+.palitem .cs{display:flex;gap:5px}
+.palitem .cs button{flex:1;height:26px;border-radius:6px;border:1px solid rgba(0,0,0,.08);font-size:0}
+.palitem .hx{font-family:Consolas,monospace;font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:60;background:rgba(12,20,19,.93);display:none;flex-direction:column}
+.lb.on{display:flex}
+.lbtop{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;color:#fff}
+.lbtop .t{font-family:var(--serif);font-size:20px}
+.lbtop .s{font-size:12px;color:#9CC3B4;margin-left:12px}
+.lbclose{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;width:36px;height:36px;border-radius:50%;font-size:17px}
+.lbmid{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0;padding:0 70px}
+.lbmid img,.lbmid video{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;font-size:20px}
+.arrow:hover{background:rgba(255,255,255,.16)}
+.arrow.l{left:16px}.arrow.r{right:16px}
+.lbbot{background:rgba(255,255,255,.05);padding:14px 22px 18px;color:#D6E2DE;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.lbbot .desc{flex:1;min-width:260px;font-size:13px;line-height:1.8}
+.lbbot .meta{font-size:12px;color:#9CC3B4;line-height:1.9;min-width:200px}
+.lbbot .meta code{color:#E7D6AC;font-family:Consolas,monospace;font-size:11px}
+.collect{border:0;border-radius:22px;background:var(--gold);color:#3A2A12;font-weight:700;padding:10px 20px;white-space:nowrap}
+.collect.off{background:rgba(255,255,255,.14);color:#C7D8D3}
+.toast{position:fixed;z-index:80;right:24px;bottom:24px;background:var(--deep);color:#fff;border-radius:12px;padding:12px 18px;font-size:13px;transform:translateY(90px);transition:.3s;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.toast.show{transform:translateY(0)}
+@media(max-width:900px){
+  .app{grid-template-columns:64px 1fr}.brand{width:48px;height:48px;font-size:11px}
+  .navbtn span:last-child{display:none}.pad{padding:22px 18px 40px}
+  .mapwrap,.jgrid,.palwrap{grid-template-columns:1fr}
+  .coverin h1{font-size:40px}.coverin h2{font-size:18px}
+  .months{grid-template-columns:repeat(3,1fr)}
+  .lbmid{padding:0 8px}.arrow.l{left:4px}.arrow.r{right:4px}
+}
+</style>
+</head>
+<body>
+<iframe id="gameLaunchFrame" src="index.html" title="港硕回忆录游戏" allow="autoplay; fullscreen"></iframe>
+<div class="app">
+  <aside class="rail">
+    <div class="brand">港硕<br>回忆录</div>
+    <nav class="railnav">
+      <button class="navbtn active" data-screen="cover"><span>✦</span><span>封面</span></button>
+      <button class="navbtn" data-screen="map"><span>⌖</span><span>地图</span></button>
+      <button class="navbtn" data-screen="scenes"><span>▤</span><span>场景</span></button>
+      <button class="navbtn" data-screen="journal"><span>◫</span><span>手账</span></button>
+      <button class="navbtn" data-screen="assets"><span>▣</span><span>素材</span></button>
+      <button class="navbtn" data-screen="palette"><span>◈</span><span>配色</span></button>
+    </nav>
+    <div class="railbottom">已收集 <b id="vcount">0</b>/17<div class="prog"><i id="vbar"></i></div>9月1日 · 开学</div>
+  </aside>
+  <main class="main">
+
+    <section class="screen active" id="cover">
+      <video class="coverbg" src="assets/12a613926b8e6ec15621f7e9378921e2.mp4" poster="assets/video_cover.jpg" autoplay muted loop playsinline></video>
+      <div class="covermask"></div>
+      <div class="coverin">
+        <div class="eyebrow">HONG KONG DIARY · GAME DESIGN DOCUMENT V2.0</div>
+        <h1>港硕回忆录</h1>
+        <h2>我的香港一年 · 游戏浏览版</h2>
+        <p>把香港变成一本可以亲自走进、慢慢填满的手账。<br>本页依据《香港回忆录（游戏构架）》GDD V2.0 与精选像素美术素材整理：从全港大地图进入五区，逐张浏览场景、活动与角色设定，并把喜欢的回忆收进手账。</p>
+        <div class="stats">
+          <div class="stat"><b>333</b><span>学年天数</span></div>
+          <div class="stat"><b>4</b><span>地图层级</span></div>
+          <div class="stat"><b>3</b><span>经验类型</span></div>
+          <div class="stat"><b>4</b><span>年度评价</span></div>
+        </div>
+        <button class="cta" onclick="show('map')">进入香港 →</button>
+      </div>
+      <div class="coverfoot">17 张像素美术 · 2 段动态场景 · 5 大区域 · 2 份设定文档 ｜ 离线可浏览，← → 键切换大图</div>
+    </section>
+
+    <section class="screen" id="map"><div class="pad">
+      <div class="eyebrow">L1 · WORLD MAP</div>
+      <h1 class="title">全港大地图</h1>
+      <p class="sub">五区名称始终明亮、可点击。点击右侧区域卡片，进入该区的场景长廊；点击左图可放大查看香港总览。</p>
+      <div class="mapwrap">
+        <div class="mapframe">
+          <img id="bigmap" src="assets/maps/l1-l2/01.webp" alt="香港 L1 像素地图总览">
+          <div class="mapnote">香港 L1 总览地图。点击地图可放大；选择右侧区域后继续浏览 L2 地图中的街区地点。</div>
+        </div>
+        <div class="regionlist" id="regionlist"></div>
+      </div>
+    </div></section>
+
+    <section class="screen" id="scenes"><div class="pad">
+      <div class="eyebrow">L2 / L3 / L4 · SCENE BROWSER</div>
+      <h1 class="title">场景巡礼</h1>
+      <p class="sub">按区域、时段与类型筛选素材。点击任意卡片放大浏览，「记入手账」可收集回忆并推进左下角进度。</p>
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="scenegrid"></div>
+    </div></section>
+
+    <section class="screen" id="journal"><div class="pad">
+      <div class="eyebrow">JOURNAL · ACADEMIC YEAR</div>
+      <h1 class="title">手账与学年设定</h1>
+      <p class="sub">摘自 GDD V2.0：时间系统、四级地图、11 个月内容日历、三类经验与四种年度称号。</p>
+      <div class="jgrid">
+        <div class="panel">
+          <h3>学年时间<small>9月1日 – 次年7月30日</small></h3>
+          <div class="kv">
+            <b>学年</b><span>固定非闰年 333 天，7月30日 22:00 进入唯一一次结算</span>
+            <b>每日</b><span>08:00 – 22:00 可活动，共 840 游戏分钟；22:00 强制回住所</span>
+            <b>倍率</b><span>1 现实秒 = 70 游戏秒，现实 12 分钟为一个完整游戏日</span>
+            <b>日夜</b><span>18:00 切换夜景；活动开放以独立时间窗口为准</span>
+            <b>货币</b><span>不设游戏货币与体力惩罚，时间与经历是主要资源</span>
+          </div>
+          <h3 style="margin-top:20px">四级地图<small>L1 – L4</small></h3>
+          <div class="lvl">
+            <div><b>L1</b>全港大地图：五区名称始终明亮可点，点击进入对应 L2。</div>
+            <div><b>L2</b>区域小地图：以明暗表达探索程度，仅有任务内容的节点可进入 L3。</div>
+            <div><b>L3</b>街区长廊：视觉直线、逻辑环形，D 前进、E 交互，含港铁站、门头与日夜变化。</div>
+            <div><b>L4</b>活动场景：餐厅、展馆、校园、节庆等最小互动场景，退出回到所属 L3 门头。</div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>11 个月内容日历<small>点击月份查看主题</small></h3>
+          <div class="months" id="months"></div>
+          <div class="mdetail" id="mdetail"></div>
+        </div>
+        <div class="panel">
+          <h3>三类经验与毕业线<small>总 XP ≥ 1000 毕业</small></h3>
+          <div class="xp" id="xp"></div>
+          <h3 style="margin-top:20px">四种年度称号<small>互斥，按判定顺序</small></h3>
+          <div class="titles">
+            <div class="tcard"><b>多元生活家</b><small>毕业且三类 XP 占比均 ≥15%，或最高类别并列。</small></div>
+            <div class="tcard"><b>城市学习者</b><small>非多元且学习 XP 唯一最高。</small></div>
+            <div class="tcard"><b>香港美食探索者</b><small>非多元且美食 XP 唯一最高。</small></div>
+            <div class="tcard"><b>社区体验家</b><small>非多元且社会实践 XP 唯一最高。</small></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>我的浏览手账<small id="loghint">尚未收集回忆</small></h3>
+          <ul class="log" id="log"></ul>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="screen" id="assets"><div class="pad">
+      <div class="eyebrow">ASSET ARCHIVE · 17 IMAGES + 2 VIDEOS</div>
+      <h1 class="title">素材总览</h1>
+      <p class="sub">素材按编号归档：类型、分辨率与主色提取；编号 126–131 的末尾六张旧图已从画廊隐藏。点击缩略图查看原始素材。</p>
+      <div class="chips" id="kindstat"></div>
+      <div class="grid" id="assetgrid"></div>
+    </div></section>
+
+    <section class="screen" id="palette"><div class="pad">
+      <div class="eyebrow">PALETTE · DESIGN REFERENCE</div>
+      <h1 class="title">配色档案</h1>
+      <p class="sub">GDD 美术规范为「青绿、招牌红、港湾蓝与夜间靛蓝」。左表为界面配色（按模块说明用途），右表为各素材主色提取；点击 hex 即可复制。</p>
+      <div class="palwrap">
+        <div class="panel"><h3>界面配色<small>hex + 应用模块</small></h3><div id="uicolors"></div></div>
+        <div class="panel"><h3>素材主色提取<small>每张图 Top 3</small></h3><div class="palgrid" id="assetcolors"></div></div>
+      </div>
+    </div></section>
+
+  </main>
+</div>
+
+<div class="lb" id="lb">
+  <div class="lbtop"><div><span class="t" id="lbtitle"></span><span class="s" id="lbsub"></span></div><button class="lbclose" onclick="closeLb()">×</button></div>
+  <div class="lbmid">
+    <button class="arrow l" onclick="step(-1)">‹</button>
+    <div id="lbmedia" style="display:contents"></div>
+    <button class="arrow r" onclick="step(1)">›</button>
+  </div>
+  <div class="lbbot">
+    <div class="desc" id="lbdesc"></div>
+    <div class="meta" id="lbmeta"></div>
+    <button class="collect" id="lbcollect" onclick="toggleVisited(current)">记入手账</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/meta.js"></script>
+<script>
+const A = window.ASSETS;
+const HIDDEN_ARCHIVE_IDS = new Set(['126','127','128','129','130','131']);
+const VISIBLE_ASSETS = A.filter(a=>!HIDDEN_ARCHIVE_IDS.has(String(a.n)));
+const VISIBLE_SCENES = VISIBLE_ASSETS.filter(a=>!a.video);
+const scenes = VISIBLE_SCENES;
+const REGIONS = {
+ '港岛':{rep:'118',text:'中环、上环、湾仔、铜锣湾；兰桂坊门头、城市艺术与街坊饮食。'},
+ '九龙':{rep:'116',text:'油麻地、旺角、尖沙咀、西九文化区等，日夜反差最强的一区。'},
+ '新界':{rep:'109',text:'校园及周边、沙田、大埔等，学年生活的起点与日常。'},
+ '大屿山':{rep:'111',text:'东涌、迪士尼相关节点等，现实攻略参考图归入此区。'},
+ '离岛':{rep:'121',text:'长洲、南丫岛等生活内容；非港铁直达地点须遵循接驳规则。'},
+ '通用':{rep:'110',text:'男女主像素三视图与通用餐饮活动场景。'}
+};
+const MONTHS=[
+ ['9月','初到香港','住所、校园迎新、港式早餐、中秋线索',30],
+ ['10月','城市庆典','国庆主题、维港观赏、万圣节兰桂坊',31],
+ ['11月','社区与文化','校园活动、街市观察、社区交流',30],
+ ['12月','冬日城市','冬日灯饰、节日市集主题、展馆',31],
+ ['1月','新年与复盘','新年漫步、学期回顾、未发现街区',31],
+ ['2月','传统与团圆','农历新年、花市或巡游主题',28],
+ ['3月','艺术与春日','艺术展览、西九文化、校园讲座',31],
+ ['4月','历史与自然','历史场馆、海滨公园、复活节主题',30],
+ ['5月','离岛生活','海岛文化、街巷体验；现实渡轮攻略不计 XP',31],
+ ['6月','海港与实践','端午龙舟主题、社区实践',30],
+ ['7月','毕业与告别','补做常驻体验、重访喜欢的地点、毕业纪念',30]
+];
+const XP=[['学习','课堂、博物馆、美术馆、展览、讲座','15–35 XP',72,'#3D7773'],
+ ['美食','茶餐厅、小吃、饮品、地方饮食故事','10–25 XP',54,'#D69D50'],
+ ['社会实践','游乐园、节庆、社区交流、地方活动','15–40 XP',86,'#A75C48']];
+const UI_COLORS=[
+ ['#183A38','主色 · 深青绿','左侧导航栏、主按钮、状态条','原 index.html / GDD 青绿'],
+ ['#1D2B2A','墨色','标题与正文主文字、描边','原 index.html --ink'],
+ ['#3D7773','青绿 · 次级','地点标签、链接、次级按钮','原 index.html --teal'],
+ ['#A75C48','招牌红','选中态、区域标签、强调徽记','原 index.html --red / GDD 招牌红'],
+ ['#D69D50','暖金','进度徽章、称号、时间轴高亮','原 index.html --gold'],
+ ['#0E7C9B','港湾蓝','地图水域、信息卡、链接 hover','取自 #126 手绘地图 #0189B7'],
+ ['#242C45','夜间靛蓝','夜景分组、深色信息面板','取自 #125 维港烟花主色'],
+ ['#F6F1E7','纸面米白','手账与面板背景、浅色卡片','原 index.html --paper'],
+ ['#DBE5DE','灰绿底色','页面整体底色','原 index.html body'],
+ ['#FFFFFF','卡片白','场景卡片、任务卡、弹窗','通用'],
+ ['#657773','次要文字灰','说明文字、次要信息','原 index.html'],
+ ['#DDE3DB','分割线','卡片边框、分隔线','原 index.html']
+];
+let filter='全部', current=null, visited=new Set();
+const $=s=>document.querySelector(s);
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
+}
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>show(b.dataset.screen));
+function toast(t){const x=$('#toast');x.textContent=t;x.classList.add('show');clearTimeout(x.timer);x.timer=setTimeout(()=>x.classList.remove('show'),2000)}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('已复制 '+h)}
+const tagClass=a=>a.tod==='夜晚'?'n':(a.region==='通用'?'':'r');
+const dots=a=>a.colors.map(c=>`<i style="background:${c}"></i>`).join('');
+
+/* map */
+function renderMap(){
+  $('#regionlist').innerHTML=Object.keys(REGIONS).map(r=>{
+    const list=scenes.filter(a=>a.region===r), rep=scenes.find(a=>a.n===REGIONS[r].rep);
+    return `<button class="region" onclick="goRegion('${r}')">
+      <img src="${rep.thumb}" alt="${r}">
+      <div><strong>${r}</strong><small>${REGIONS[r].text}</small><span class="cnt">${list.length} 项素材</span></div>
+      <span class="go">→</span></button>`;
+  }).join('');
+}
+function goRegion(r){filter=r;renderChips();renderScenes();show('scenes')}
+const mapZoom = document.createElement('div');
+mapZoom.className = 'map-zoom-overlay';
+mapZoom.innerHTML = '<button type="button" aria-label="关闭放大地图">×</button><img src="assets/maps/l1-l2/01.webp" alt="香港 L1 像素地图总览">';
+document.body.appendChild(mapZoom);
+$('#bigmap').onclick=()=>mapZoom.classList.add('on');
+mapZoom.addEventListener('click',event=>{if(event.target===mapZoom||event.target.tagName==='BUTTON')mapZoom.classList.remove('on')});
+
+/* scenes */
+const FILTERS=['全部','港岛','九龙','新界','大屿山','离岛','通用','白天','夜晚','L3 街区','L4 活动场景','现实参考地图','角色设定'];
+function renderChips(){
+  $('#chips').innerHTML=FILTERS.map(f=>`<button class="chip ${f===filter?'on':''}" onclick="setFilter('${f}')">${f}</button>`).join('');
+}
+function setFilter(f){filter=f;renderChips();renderScenes()}
+function match(a){
+  if(filter==='全部')return true;
+  if(REGIONS[filter])return a.region===filter;
+  if(filter==='白天'||filter==='夜晚')return a.tod===filter;
+  return a.kind===filter;
+}
+function cardHTML(a,technical){
+  return `<button class="card ${visited.has(a.n)?'visited':''}" onclick="openLb('${a.n}')">
+    <span class="num">#${a.n}</span><span class="done">✓</span>
+    <img class="ph" src="${a.thumb}" loading="lazy" alt="${a.name}">
+    <div class="bd"><span class="nm">${a.name}</span>
+      <div class="mt"><span class="tag ${tagClass(a)}">${a.region}</span><span class="tag">${a.kind}</span><span class="tag">${a.tod}</span></div>
+      ${technical?`<div class="mt"><span class="dots">${dots(a)}</span><span>${a.size[0]}×${a.size[1]}</span></div><div class="hexrow">${a.colors.join(' · ')}</div>`:''}
+    </div></button>`;
+}
+function renderScenes(){
+  const list=VISIBLE_ASSETS.filter(match);
+  $('#scenegrid').innerHTML=list.length?list.map(a=>cardHTML(a,false)).join(''):'<div class="empty">该筛选下暂无素材</div>';
+}
+
+/* assets */
+function renderAssets(){
+  const counts={};
+  VISIBLE_ASSETS.forEach(a=>counts[a.kind]=(counts[a.kind]||0)+1);
+  $('#kindstat').innerHTML=Object.keys(counts).map(k=>`<span class="chip" style="cursor:default">${k} · ${counts[k]}</span>`).join('')
+    +`<span class="chip" style="cursor:default">总计 · ${VISIBLE_ASSETS.length}</span>`;
+  $('#assetgrid').innerHTML=VISIBLE_ASSETS.map(a=>cardHTML(a,true)).join('');
+}
+
+/* journal */
+function renderJournal(){
+  $('#months').innerHTML=MONTHS.map((m,i)=>`<button class="month ${i===0?'on':''}" onclick="pickMonth(${i},this)"><b>${m[0]}</b>${m[3]}天</button>`).join('');
+  pickMonth(0,document.querySelector('.month'));
+  $('#xp').innerHTML=XP.map(x=>`<div><div class="row"><span><b style="color:${x[4]}">${x[0]}</b> <span style="color:var(--muted);font-size:12px">${x[1]}</span></span><span>${x[2]}</span></div><div class="bar"><i style="width:${x[3]}%;background:${x[4]}"></i></div></div>`).join('')
+    +'<div style="font-size:12px;color:var(--muted);margin-top:6px">毕业线暂定 1,000 XP，约 120 个独立任务；同一任务 ID 每学年仅奖励一次。</div>';
+  renderLog();
+}
+function pickMonth(i,el){
+  document.querySelectorAll('.month').forEach(m=>m.classList.remove('on'));
+  if(el)el.classList.add('on');
+  const m=MONTHS[i];
+  $('#mdetail').innerHTML=`<b>${m[0]} · ${m[1]}</b>（${m[3]} 天）<br>${m[2]}<br><span style="color:var(--muted);font-size:12px">月初刷新主题线索与日报候选，不强迫当月完成所有任务。</span>`;
+}
+function renderLog(){
+  const list=VISIBLE_ASSETS.filter(a=>visited.has(a.n));
+  $('#loghint').textContent=list.length?`已收集 ${list.length} 段回忆`:'尚未收集回忆';
+  $('#log').innerHTML=list.length?list.map(a=>`<li><span>#${a.n}</span>${a.region}｜${a.name}<br><small style="color:var(--muted)">${a.kind} · ${a.tod}</small></li>`).join('')
+    :'<li>在「场景」页打开任意素材，点击「记入手账」，把这一年慢慢填满。</li>';
+}
+function toggleVisited(n){
+  if(!n||n==='VID'){toast('动态场景仅作氛围演示，不计入手账');return}
+  const a=A.find(x=>x.n===n);
+  if(visited.has(n)){visited.delete(n);toast('已从手账移除 #'+n)}
+  else{visited.add(n);toast('已记入手账：'+a.name)}
+  updateProgress();syncCollect();
+}
+function updateProgress(){
+  const visibleVisited=VISIBLE_SCENES.filter(a=>visited.has(a.n)).length;
+  $('#vcount').textContent=visibleVisited;
+  $('#vbar').style.width=(visibleVisited/VISIBLE_SCENES.length*100)+'%';
+  renderLog();renderScenes();
+  if(visibleVisited===VISIBLE_SCENES.length)toast('学年回顾完成 · 年度称号：多元生活家');
+}
+function syncCollect(){
+  if(!current)return;
+  const b=$('#lbcollect');
+  b.classList.toggle('off',visited.has(current));
+  b.textContent=visited.has(current)?'已收进手账 · 点击移除':'记入手账';
+}
+
+/* palette */
+function renderPalette(){
+  $('#uicolors').innerHTML=UI_COLORS.map(c=>`<div class="palrow"><div class="swatch" style="background:${c[0]}"></div><div><b>${c[1]}</b><small>${c[2]}<br>来源：${c[3]}</small></div><button class="hex" onclick="copyHex('${c[0]}')">${c[0]}</button></div>`).join('');
+  $('#assetcolors').innerHTML=VISIBLE_ASSETS.map(a=>`<div class="palitem"><div class="nm">#${a.n} ${a.name}</div><div class="cs">${a.colors.map(c=>`<button style="background:${c}" title="${c}" onclick="copyHex('${c}')"></button>`).join('')}</div><div class="hx">${a.colors.join('<br>')}</div></div>`).join('');
+}
+
+/* lightbox */
+function openLb(n){
+  current=n;const a=A.find(x=>x.n===n);
+  $('#lbtitle').textContent=a.name;
+  $('#lbsub').textContent='#'+a.n+' · '+a.region+' · '+a.kind+' · '+a.tod;
+  $('#lbmedia').innerHTML=a.video
+    ?`<video src="${a.src}" poster="${a.thumb}" controls autoplay muted loop playsinline></video>`
+    :`<img src="${a.src}" alt="${a.name}">`;
+  $('#lbdesc').textContent=a.desc;
+  $('#lbmeta').innerHTML=`分辨率 ${a.size[0]}×${a.size[1]}<br>主色 <span class="dots">${dots(a)}</span><br><code>${a.colors.join('  ')}</code><br><code>${a.file}</code>`;
+  $('#lbcollect').style.display=a.video?'none':'';
+  syncCollect();
+  $('#lb').classList.add('on');
+}
+function closeLb(){$('#lb').classList.remove('on');$('#lbmedia').innerHTML='';current=null}
+function step(d){
+  const list=VISIBLE_ASSETS.filter(match);
+  if(!list.length)return;
+  let i=list.findIndex(a=>a.n===current);
+  openLb(list[(i+d+list.length)%list.length].n);
+}
+document.addEventListener('keydown',e=>{
+  if(!$('#lb').classList.contains('on'))return;
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowLeft')step(-1);
+  if(e.key==='ArrowRight')step(1);
+});
+$('#lb').addEventListener('click',e=>{if(e.target.id==='lb')closeLb()});
+
+renderMap();renderChips();renderScenes();renderAssets();renderJournal();renderPalette();updateProgress();
+</script>
+</body>
+</html>
