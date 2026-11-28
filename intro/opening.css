@@ -1,0 +1,25 @@
+html {
+  background: #141e2e;
+  cursor: url("./assets/cursor-arrow.png") 1 1, default;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  display: grid;
+  min-height: 100vh;
+  min-height: 100dvh;
+  place-items: center;
+}
+
+canvas {
+  display: block;
+  width: min(100vw, calc(100vh * 960 / 544));
+  width: min(100vw, calc(100dvh * 960 / 544));
+  height: auto;
+  aspect-ratio: 960 / 544;
+  background: #538cc2 url("./assets/preview-01-loading.png") center / 100% 100% no-repeat;
+  image-rendering: pixelated;
+}

@@ -1,0 +1,82 @@
+main > section,
+.game-hud {
+  grid-area: 1 / 1;
+}
+
+.game-hud {
+  --hud-top: 4.25%;
+  --hud-right: 2.58%;
+  --hud-icon-width: 3.1%;
+  position: relative;
+  container-type: inline-size;
+  width: min(100vw, calc(100vh * var(--hud-ratio)));
+  width: min(100vw, calc(100dvh * var(--hud-ratio)));
+  aspect-ratio: var(--hud-ratio);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hud-clock,
+.hud-location,
+.hud-bag,
+.hud-journal,
+.hud-slots {
+  position: absolute;
+  right: var(--hud-right);
+  height: auto;
+}
+
+.hud-clock,
+.hud-location {
+  top: var(--hud-top);
+  width: 14.46%;
+}
+
+.hud-clock img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hud-day {
+  position: absolute;
+  inset: 19.5% 41.9% 62% 53.4%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hud-digit {
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 5 / 7;
+  background: url("./assets/hud-day-digits.png") calc(var(--digit) * 100% / 9) center / 1000% 100% no-repeat;
+  image-rendering: pixelated;
+}
+
+.hud-location {
+  right: auto;
+  left: 2.1%;
+  aspect-ratio: 1978 / 648;
+  color: #51250e;
+  font: 750 1.4cqw / 1.2 system-ui, sans-serif;
+  background: url("./assets/hud-location.png") center / 100% 100% no-repeat;
+}
+
+.hud-location:not([hidden]) {
+  display: grid;
+  place-items: center;
+}
+
+.hud-bag,
+.hud-journal,
+.hud-slots {
+  width: var(--hud-icon-width);
+}
+
+.hud-bag { top: 15.09%; }
+.hud-journal { top: 23.2%; }
+.hud-slots {
+  top: 31.3%;
+  height: 27.1%;
+}

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="港硕回忆录的开场与角色创建。">
+  <meta name="theme-color" content="#141e2e">
+  <title>港硕回忆录</title>
+  <link rel="preload" href="./assets/title-menu-centered.png" as="image">
+  <link rel="stylesheet" href="./opening.css">
+  <link rel="stylesheet" href="./scenes.css">
+  <link rel="stylesheet" href="./office.css">
+  <link rel="stylesheet" href="./hud.css">
+  <style>
+    /* 流程终点：选择宿舍页 —— 点击任意位置进入港硕回忆录街道 */
+    #dorm-scene { cursor: pointer; }
+    .dorm-enter-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 9%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: .6em;
+      padding: .62em 1.1em;
+      border: 2px solid rgba(67, 34, 16, .45);
+      border-radius: 6px;
+      background: rgba(255, 246, 229, .88);
+      color: #432210;
+      font-family: system-ui, "Microsoft YaHei", sans-serif;
+      font-size: clamp(13px, 1.5vw, 17px);
+      letter-spacing: .08em;
+      box-shadow: 3px 3px 0 rgba(67, 34, 16, .22);
+      animation: dormHintPulse 1.9s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .dorm-enter-hint i { font-style: normal; font-size: 1.15em; }
+    @keyframes dormHintPulse {
+      50% { transform: translateX(-50%) translateY(-5px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dorm-enter-hint { animation: none; }
+    }
+  </style>
+  <script defer src="./portraits.js"></script>
+  <script defer src="./hud.js"></script>
+  <script defer src="./office.js"></script>
+  <script defer src="./opening.js"></script>
+  <script defer src="./scenes.js"></script>
+  <script defer src="./cursor.js"></script>
+</head>
+<body>
+  <main>
+    <section id="opening-scene" aria-label="开场加载">
+      <canvas width="960" height="544" role="img" aria-label="蓝天下，一个像素人物在香港街景上方原地踏步。"></canvas>
+    </section>
+
+    <section id="title-scene" class="scene title-scene" aria-label="港硕回忆录主菜单" hidden>
+      <img class="scene-art" src="./assets/title-menu-centered.png" alt="">
+      <img class="scene-art menu-row-art" src="./assets/title-menu-centered.png" alt="">
+      <div class="harbor-water" aria-hidden="true">
+        <span class="water-patch water-pier"></span>
+        <span class="water-patch water-channel"></span>
+        <span class="water-patch water-foreground"></span>
+        <span class="water-patch water-tram"></span>
+      </div>
+      <nav aria-label="主菜单">
+        <button id="enter-game" class="art-button menu-enter" type="button" aria-label="进入，创建形象"></button>
+        <button id="exit-game" class="art-button menu-exit" type="button" aria-label="退出"></button>
+        <button class="art-button menu-options" type="button" aria-label="菜单（后续开放）" disabled></button>
+      </nav>
+    </section>
+
+    <section id="character-scene" class="scene character-scene" aria-label="创建形象" hidden>
+      <img class="scene-art" src="./assets/character-creation-no-title.png" alt="">
+      <button id="back-to-title" class="back-button" type="button" aria-label="返回主菜单">‹</button>
+      <form id="character-form">
+        <div class="avatar-preview male-preview" id="male-preview" hidden>
+          <img class="avatar-portrait" src="./assets/character-male-front.png" alt="男性像素角色预览">
+        </div>
+        <div class="avatar-preview female-preview" id="female-preview">
+          <canvas class="avatar-portrait female-front" width="156" height="282" role="img" aria-label="女性像素角色正面预览"></canvas>
+        </div>
+        <div role="group" aria-label="选择形象">
+          <button class="art-button avatar-choice avatar-male" type="button" data-avatar="male" aria-label="男性形象" aria-pressed="false">♂</button>
+          <button class="art-button avatar-choice avatar-female" type="button" data-avatar="female" aria-label="女性形象" aria-pressed="true">♀</button>
+        </div>
+        <input id="character-name" class="profile-input name-input" name="name" aria-label="姓名（可选）" type="text" placeholder="小黛" maxlength="16" autocomplete="off">
+        <input id="residence-name" class="profile-input home-input" name="home" aria-label="住所名字（可选）" type="text" placeholder="小黛的宿舍" maxlength="24" autocomplete="off">
+        <button class="art-button reset-button" type="reset" aria-label="重置"></button>
+        <button class="art-button confirm-button" type="submit" aria-label="确认"></button>
+      </form>
+    </section>
+
+    <section id="office-scene" class="scene office-scene" aria-label="办公室" data-location="学校-办公室" data-show-toolbar tabindex="-1" hidden>
+      <img id="office-art" class="scene-art" src="./assets/office.png" width="1920" height="1080" alt="像素风办公室，工作人员坐在接待台后方，入口位于画面下方。">
+      <div class="office-player">
+        <canvas class="office-player-sprite" width="156" height="320" role="img" aria-label="面向接待台的女孩背影"></canvas>
+        <img class="office-reaction player-reaction" alt="" hidden>
+      </div>
+      <img class="office-reaction teacher-reaction" alt="" hidden>
+      <div class="office-dialogue" hidden>
+        <button class="office-dialogue-button" type="button" aria-label="继续对白" aria-describedby="office-speaker office-line">
+          <img class="office-dialogue-art" src="./assets/office-dialogue-frame.png" alt="">
+          <span class="office-line" id="office-line" aria-live="polite"></span>
+          <img class="office-portrait" alt="">
+          <span class="office-speaker" id="office-speaker"></span>
+        </button>
+      </div>
+    </section>
+
+    <section id="dorm-scene" class="scene character-scene dorm-scene" aria-labelledby="dorm-heading" tabindex="-1" hidden>
+      <img class="scene-art" src="./assets/character-creation-no-title.png" alt="">
+      <div class="dorm-panel" aria-hidden="true"></div>
+      <h1 id="dorm-heading" tabindex="-1">选择宿舍</h1>
+      <div class="dorm-enter-hint" aria-hidden="true"><span>点击屏幕，走进香港的街道</span><i>→</i></div>
+    </section>
+
+    <section id="overview-scene" class="scene map-scene" aria-labelledby="overview-heading" hidden>
+      <img class="scene-art" src="./assets/maps/hong-kong.png" alt="">
+      <h1 id="overview-heading" class="overview-heading" tabindex="-1">香港地图</h1>
+      <nav aria-label="选择地区">
+        <button class="art-button map-west" data-region="new-territories-west" type="button" aria-label="新界西"></button>
+        <button class="art-button map-east" data-region="new-territories-east" type="button" aria-label="新界东"></button>
+        <button class="art-button map-kowloon" data-region="kowloon" type="button" aria-label="九龙区"></button>
+        <button class="art-button map-island" data-region="hong-kong-island" type="button" aria-label="港岛区"></button>
+        <button class="art-button map-lantau" data-region="lantau-and-outlying-islands" type="button" aria-label="大屿山及离岛"></button>
+      </nav>
+      <button id="back-to-character" class="map-back-button" type="button">‹ 创建形象</button>
+    </section>
+
+    <section id="region-scene" class="scene map-scene" aria-label="地区地图" hidden>
+      <img id="region-art" class="scene-art" alt="">
+      <button id="back-to-overview" class="map-back-button" type="button">‹ 香港地图</button>
+    </section>
+
+    <section id="exit-scene" class="scene exit-scene" aria-labelledby="exit-heading" hidden>
+      <canvas id="exit-backdrop" width="960" height="544" aria-hidden="true"></canvas>
+      <h1 id="exit-heading" tabindex="-1">已退出游戏，请关闭此标签页</h1>
+      <img class="exit-guide" src="./assets/exit-pointing-student.png" alt="">
+      <div class="exit-reaction" aria-hidden="true"><span class="pixel-heart"></span></div>
+      <button id="restart-game" class="restart-button" type="button">
+        重新进入游戏
+        <img class="pixel-smile" src="./assets/restart-smile.png" alt="">
+      </button>
+    </section>
+    <aside id="game-hud" class="game-hud" aria-label="游戏状态" hidden>
+      <div class="hud-location" hidden></div>
+      <div class="hud-toolbar" role="group" aria-label="右侧工具栏" hidden>
+        <div class="hud-clock">
+          <img src="./assets/hud-clock.png" alt="游戏时间 09:30" width="720" height="236">
+          <span class="hud-day" role="img"></span>
+        </div>
+        <img class="hud-bag" src="./assets/hud-bag.png" alt="背包">
+        <img class="hud-journal" src="./assets/hud-journal.png" alt="手帐">
+        <img class="hud-slots" src="./assets/hud-slots.png" alt="五个空白物品格">
+      </div>
+    </aside>
+  </main>
+  <div id="game-cursor" class="game-cursor" aria-hidden="true" hidden>
+    <img class="cursor-arrow" src="./assets/cursor-arrow.png" width="20" height="27" alt="">
+    <img class="cursor-hand" src="./assets/cursor-hand.png" width="23" height="29" alt="">
+  </div>
+</body>
+</html>

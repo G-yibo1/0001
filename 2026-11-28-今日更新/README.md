@@ -87,3 +87,41 @@ git checkout a558626 -- index.html assets
 ```
 
 3. 本地完整记录见项目目录 `更新流程/00`–`07` 号文档，每一步都有问题描述、改法、验证与回退步骤。
+
+---
+
+## 五、当日追加：接入「唐倩茜 首页与导图」开场（23:50）
+
+当天第二批次改动，把 `唐倩茜首页与导图/hong-kong-diary` 的整段开场接到游戏最前面，并删除旧的三屏。
+
+### 新增
+
+| 路径 | 说明 |
+|---|---|
+| `intro/` | 完整开场章节（59 个文件）：加载动画、主菜单、创建形象、办公室对话、选择宿舍，含素材与脚本 |
+| `intro/index.html` | 开场入口，脚本已由 ES module 改为普通脚本（本地双击也能跑） |
+| `intro/scenes.js` | 流程控制；**最后一页（选择宿舍）点击屏幕** → 通知外层进入街道 |
+
+### 修改
+
+| 文件 | 改动说明 |
+|---|---|
+| `index.html` | 删除 `#welcomeScreen`（首页）、`#onboarding`（人物挑选）、`#guideOverlay`（导师对话）、`#dormOverlay`（旧宿舍弹层）；新增 `.intro-overlay` 全屏 iframe 作为第一屏；新增姓名/性别带入逻辑 `applyIntroProfile()`；`experience.js?v=5` |
+| `assets/experience.js` | 移除 welcome/onboarding/角色创建相关逻辑，保留快捷栏、键盘、HUD 联动 |
+| `README.md` | 补充开局流程与目录说明 |
+
+### 行为
+
+- 打开页面 → 先播 `intro/` 开场；播放期间游戏本体 `visibility:hidden`，不响应键盘。
+- 最后一页「选择宿舍」出现时屏幕下方提示「点击屏幕，走进香港的街道 →」。
+- 点击后浮层淡出；开场里填的姓名与性别立即生效（街道人物头顶姓名、立绘性别）。
+- 同一标签页刷新不再重播开场（`sessionStorage: hong-kong-diary:intro-done`）。
+
+### 回退
+
+```bash
+git revert <本次提交>
+```
+
+或单独回退：删除 `intro/`，把 `index.html`、`assets/experience.js`、`README.md` 还原到 `97f48c7`。
+

@@ -21,6 +21,12 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#8fb6a6;i
 /* 新增：角色创建、导师导览与宿舍出生点 */
 .onboarding{position:fixed;z-index:100;inset:0;background:#dce7d8;display:grid;grid-template-columns:43% 57%;overflow:hidden}.onboarding.hidden{display:none}.creator-visual{position:relative;background:url('assets/微信图片_20261126093331_119_1244.webp') center/cover}.creator-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(30,54,46,.1),rgba(30,54,46,.7)),repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px)}.character-preview{position:absolute;z-index:2;left:50%;bottom:8%;width:210px;height:330px;transform:translateX(-50%);border:4px solid #263d35;border-radius:12px;background:#f7efdb;box-shadow:10px 10px 0 rgba(38,61,53,.35);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden}.preview-sky{position:absolute;inset:0 0 55%;background:#9fbdb1}.preview-avatar{position:relative;z-index:2;width:130px;height:230px;margin-bottom:18px}.avatar-head{position:absolute;top:20px;left:43px;width:44px;height:50px;border-radius:42% 42% 46% 46%;background:#e2b18e;border:3px solid #263d35}.avatar-hair{position:absolute;top:10px;left:36px;width:58px;height:40px;border-radius:25px 25px 10px 10px;background:#3a3028;border:3px solid #263d35}.avatar-body{position:absolute;left:25px;top:68px;width:80px;height:120px;border:3px solid #263d35;border-radius:18px 18px 8px 8px}.preview-avatar[data-clothes="校园衫"] .avatar-body{background:#efca78}.preview-avatar[data-clothes="运动服"] .avatar-body{background:#75a8a2}.preview-avatar[data-clothes="礼服"] .avatar-body{background:#a76578}.preview-avatar[data-clothes="休闲外套"] .avatar-body{background:#718d67}.creator-panel{padding:34px clamp(28px,5vw,70px);background:#f7efdb;overflow:auto}.creator-kicker{font-family:monospace;font-size:12px;letter-spacing:.16em;color:#547969}.creator-panel h1{font-family:monospace;font-size:40px;margin:8px 0 4px}.creator-panel>p{color:#718078;margin:0 0 20px}.create-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label,.feature label{display:block;font-size:12px;font-weight:800;margin-bottom:7px}.field input{width:100%;height:48px;border:2px solid #b9c2ad;border-radius:6px;background:#fffdf5;padding:0 12px;font-size:16px}.option-row{display:flex;gap:8px}.option-row button,.chip-row button{border:2px solid #b9c2ad;background:#fffdf5;border-radius:6px;padding:10px 12px;cursor:pointer}.option-row button.selected,.chip-row button.selected{border-color:#315347;background:#efca78;color:#263d35}.feature{grid-column:1/-1}.chip-row{display:flex;flex-wrap:wrap;gap:8px}.stat-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.stat-preview div{border:2px solid #bdc8b2;border-radius:6px;background:#edf0df;padding:9px}.stat-preview b{display:block;font-family:monospace;font-size:19px}.stat-preview span{font-size:11px;color:#718078}.primary-btn{width:100%;height:52px;border:3px solid #263d35;border-radius:7px;background:#315347;color:#fff;font-size:15px;font-weight:800;cursor:pointer;box-shadow:5px 5px 0 #d1b86e}.guide-overlay{position:fixed;z-index:110;inset:0;background:rgba(24,43,38,.76);display:none;align-items:center;justify-content:center}.guide-overlay.active{display:flex}.guide-stage{width:min(900px,90vw);height:min(580px,78vh);border:4px solid #263d35;border-radius:10px;overflow:hidden;position:relative;background:url('assets/微信图片_20261126093331_119_1244.webp') center/cover;box-shadow:12px 12px 0 rgba(20,34,29,.45)}.guide-stage:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(28,49,42,.58),transparent 55%)}.npc{position:absolute;z-index:2;right:13%;bottom:12%;width:170px;height:250px}.npc-head{position:absolute;top:28px;left:57px;width:56px;height:62px;border:4px solid #263d35;border-radius:45% 45% 42% 42%;background:#d7a17d}.npc-hair{position:absolute;z-index:2;top:16px;left:48px;width:74px;height:48px;border:4px solid #263d35;border-radius:50% 50% 12px 12px;background:#c3b3dc}.npc-body{position:absolute;top:88px;left:34px;width:102px;height:145px;border:4px solid #263d35;border-radius:24px 24px 8px 8px;background:#b3c7a2}.staff{position:absolute;z-index:3;right:-20px;top:72px;width:10px;height:150px;background:#efca78;border:3px solid #263d35;border-radius:8px}.staff:before{content:"✦";position:absolute;top:-34px;left:-17px;width:38px;height:38px;border:3px solid #263d35;border-radius:50%;background:#f7efdb;color:#b88b39;display:grid;place-items:center}.dialogue{position:absolute;z-index:4;left:24px;right:24px;bottom:24px;border:3px solid #263d35;border-radius:8px;background:#f7efdb;padding:16px 18px;box-shadow:7px 7px 0 rgba(38,61,53,.35)}.dialogue .npc-name{font-family:monospace;font-size:12px;color:#547969}.dialogue p{min-height:48px;line-height:1.7;margin:6px 0 12px}.dialogue button{float:right;border:2px solid #263d35;border-radius:5px;background:#315347;color:#fff;padding:8px 14px;cursor:pointer}.dorm-overlay{position:fixed;z-index:105;inset:0;background:rgba(35,53,47,.83);display:none;align-items:center;justify-content:center}.dorm-overlay.active{display:flex}.dorm-panel{width:min(980px,92vw);background:#f7efdb;border:4px solid #263d35;border-radius:10px;padding:26px;box-shadow:12px 12px 0 rgba(18,31,26,.45)}.dorm-panel h2{font-family:monospace;margin:0 0 4px}.dorm-panel>p{color:#718078;margin-top:0}.dorm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.dorm-card{border:3px solid #bdc8b2;border-radius:7px;background:#fffdf5;padding:10px;text-align:left;cursor:pointer}.dorm-card.selected{border-color:#315347;background:#e7e0b7;box-shadow:5px 5px 0 #d1b86e}.dorm-card img{width:100%;height:115px;object-fit:cover;border:2px solid #263d35;border-radius:4px}.dorm-card strong{display:block;margin:8px 0 3px}.dorm-card small{color:#718078}.hotspot{position:absolute;z-index:6;width:auto;min-width:92px;height:42px;border:2px solid #263d35;border-radius:5px;background:#f7efdb;color:#263d35;box-shadow:4px 4px 0 rgba(49,83,71,.28);font-size:11px;font-weight:800;cursor:pointer}.hotspot:before{content:"";position:absolute;left:50%;top:-12px;width:8px;height:8px;border:2px solid #263d35;border-radius:50%;background:#efca78;transform:translateX(-50%)}.hotspot:hover{background:#efca78}.hotspot[data-locked="true"]{opacity:.58}.birth-marker{position:absolute;z-index:7;width:38px;height:38px;border:3px solid #263d35;border-radius:50%;background:#efca78;display:grid;place-items:center;font-size:18px;left:var(--x);top:var(--y);box-shadow:4px 4px 0 rgba(49,83,71,.28)}
 @media(max-width:760px){.app{grid-template-columns:64px 1fr}.mapcanvas{top:135px}.place{width:96px;height:96px}.place strong{font-size:9px}.invgrid{grid-template-columns:repeat(2,58px)}.storypanel{border-width:2px}.onboarding{grid-template-columns:1fr}.creator-visual{display:none}.creator-panel{padding:22px}.create-grid{grid-template-columns:1fr}.dorm-grid{grid-template-columns:1fr 1fr}.guide-stage{height:70vh}.npc{right:4%;transform:scale(.78);transform-origin:bottom}.hotspot{min-width:74px;font-size:9px}.stat-preview{grid-template-columns:repeat(3,1fr)}}
+/* 开场（唐倩茜「首页与导图」）作为整个游戏的第一个界面 */
+body.intro-active{overflow:hidden}
+body.intro-active .app,body.intro-active .game-hud,body.intro-active .hotbar,body.intro-active .toast{visibility:hidden}
+.intro-overlay{position:fixed;inset:0;z-index:9999;background:#141e2e;transition:opacity .42s ease}
+.intro-overlay iframe{display:block;width:100%;height:100%;border:0;background:#141e2e}
+.intro-overlay.leaving{opacity:0;pointer-events:none}
 </style>
 <link rel="stylesheet" href="assets/experience.css">
 <link rel="stylesheet" href="assets/adventure.css">
@@ -29,42 +35,22 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#8fb6a6;i
 <link rel="stylesheet" href="assets/world.css?v=7">
 <link rel="stylesheet" href="assets/room.css?v=1">
 </head>
-<body>
-<section class="welcome-screen" id="welcomeScreen">
-  <div class="welcome-art"><img id="welcomeScene" src="assets/video_cover.jpg" alt="中环摩天轮像素街景"><div class="welcome-art-grain"></div></div>
-  <header class="welcome-nav"><div class="welcome-mark">港硕<br>记</div><nav><button class="welcome-nav-link current" data-home-tab="0">初到香港</button><button class="welcome-nav-link" data-home-tab="1">冰室日常</button><button class="welcome-nav-link" data-home-tab="2">九龙夜行</button></nav><button class="welcome-mini-start" id="navBeginJourney">开始新生活 <span>→</span></button></header>
-  <div class="welcome-copy"><div class="welcome-kicker"><span></span>HONG KONG · 你的港硕第一年</div><h1>港硕回忆录</h1><div class="welcome-subtitle">从宿舍楼下，走进整座香港。</div><p class="welcome-summary">带着几件行李、导师送来的手杖和一张还没填满的手账，在港岛、九龙、新界与离岛之间，过完属于自己的第一年。</p><div class="welcome-actions"><button class="welcome-primary" id="beginJourney">创建角色，开始旅程 <span>→</span></button><button class="welcome-secondary" id="resumeJourney">看看香港街景 <span>↗</span></button></div><div class="welcome-story-meta"><span><b>333</b>天学年</span><span><b>4</b>地图层级</span><span><b>11</b>个月份</span><span><b>3</b>条特别事件</span></div></div>
-  <div class="welcome-news"><div class="news-date">9月1日 · 开学前夕</div><p><b>今日手账提示</b><br>先去宿舍放下行李，再到街角认认路。别忘了看一眼导师的欢迎信。</p><span class="news-pin">✦</span></div>
-  <div class="welcome-scene-mark"><span>✦</span><i></i><span id="sceneCaption">中环 · 港湾入夜</span><span id="sceneNumber" class="sr-only">01</span></div>
-  <div class="welcome-controls"><button id="welcomePrev" aria-label="上一张街景">‹</button><span><b id="welcomeSlideCurrent">01</b><i></i><b>03</b></span><button id="welcomeNext" aria-label="下一张街景">›</button></div>
-  <div class="welcome-footer"><span>香港 · 九月 · 第一学期</span><span>WASD 移动　F 互动　E 背包　J 任务　L 手账</span></div>
-</section>
-<div class="onboarding hidden" id="onboarding">
-  <div class="creator-visual"><div class="character-preview"><div class="preview-sky"></div><div class="preview-avatar" id="previewAvatar" data-clothes="校园衫" data-outfit="daily"><div class="avatar-sheet" id="avatarSheet" data-gender="女性"></div><img class="avatar-layer avatar-top-layer" src="assets/characters/clothes-top.png" alt="上衣"><img class="avatar-layer avatar-pants-layer" src="assets/characters/clothes-pants.png" alt="裤子"><img class="avatar-layer avatar-shoes-layer" src="assets/characters/clothes-shoes.png" alt="鞋子"><div class="avatar-accessory"></div><img class="avatar-full" id="avatarFull" alt="节日人物造型"></div><div class="avatar-preview-name" id="avatarPreviewName">林同学 · 日常校园</div><div class="character-turnaround" id="characterTurnaround" aria-label="日常校园三视图"><div class="turnaround-view"><img data-view="front" src="assets/characters/daily-female-front.png" alt="正面"><span>正</span></div><div class="turnaround-view"><img data-view="side" src="assets/characters/daily-female-side.png" alt="侧面"><span>侧</span></div><div class="turnaround-view"><img data-view="back" src="assets/characters/daily-female-back.png" alt="背面"><span>背</span></div></div><div class="avatar-zoom-note" id="avatarZoomNote">100%</div></div></div>
-  <div class="creator-panel">
-    <div class="creator-kicker">CHARACTER CREATION · 港硕第一学期 <button id="backToWelcome" type="button">← 返回首页</button></div><h1>创建你的角色</h1><p>选择形象、性格与开学穿搭，数值会随选择即时调整。</p>
-    <div class="create-grid">
-      <div class="field"><label for="playerName">姓名</label><input id="playerName" maxlength="12" value="林同学" placeholder="请输入姓名"></div>
-      <div class="field"><label>性别 / 身份</label><div class="option-row" id="genderOptions"><button class="selected" data-gender="女性">女性</button><button data-gender="男性">男性</button><button data-gender="非二元">非二元</button></div></div>
-      <div class="feature"><label>人物特征（可多选）</label><div class="chip-row" id="traitOptions"><button class="selected" data-trait="社交达人" data-stat="社交,+12">社交达人</button><button data-trait="学业优先" data-stat="学习,+12">学业优先</button><button data-trait="探险爱好者" data-stat="探索,+12">探险爱好者</button><button data-trait="美食记录者" data-stat="体力,+12">美食记录者</button></div></div>
-      <div class="feature outfit-feature" id="clothesOptions"><label>初始服饰</label><div class="outfit-grid" id="outfitOptions"><button class="outfit-option selected" data-outfit="daily" data-clothes="日常校园" data-clue="校园"><span class="outfit-art daily-art"><img src="assets/characters/daily-female-front.png" alt="日常校园造型"></span><span><b>日常校园</b><small>轻装入学 · 学习 +5</small></span></button><button class="outfit-option" data-outfit="street" data-clothes="街头休闲" data-clue="探索"><span class="outfit-art street-art"><img src="assets/characters/clothes-top.png" alt="街头上衣"><img src="assets/characters/clothes-pants.png" alt="休闲长裤"></span><span><b>街头休闲</b><small>方便走街 · 探索 +8</small></span></button><button class="outfit-option" data-outfit="holiday" data-clothes="圣诞主题套装" data-clue="社交"><span class="outfit-art holiday-art"><img src="assets/characters/holiday-character.png" alt="圣诞套装"></span><span><b>圣诞主题</b><small>节日限定 · 社交 +8</small></span></button><button class="outfit-option" data-outfit="alternative" data-clothes="恶魔蝙蝠套装" data-clue="生活"><span class="outfit-art alternative-art"><img src="assets/characters/alternative-character.png" alt="蝙蝠套装"></span><span><b>蝙蝠套装</b><small>个性出行 · 探索 +5</small></span></button></div></div>
-      <div class="feature accessory-feature"><label>配饰</label><div class="accessory-row" id="accessoryOptions"><button class="accessory-option selected" data-accessory="none" title="不佩戴">—</button><button class="accessory-option" data-accessory="bow" title="蝴蝶结"><img src="assets/characters/accessory-bow.png" alt="蝴蝶结"></button><button class="accessory-option" data-accessory="hairpin" title="发夹"><img src="assets/characters/accessory-hairpin.png" alt="发夹"></button><button class="accessory-option" data-accessory="scarf" title="脖套"><img src="assets/characters/accessory-scarf.png" alt="脖套"></button><button class="accessory-option" data-accessory="bat" title="小蝙蝠"><img src="assets/characters/accessory-bat.png" alt="小蝙蝠"></button></div></div>
-      <div class="feature appearance-comparison"><label>主角装饰对照</label><div class="appearance-compare"><div class="compare-panel"><div class="compare-avatar"><div class="compare-person" id="compareBeforePerson" data-gender="女性"></div></div><b>未佩戴配饰</b></div><span class="compare-arrow">→</span><div class="compare-panel"><div class="compare-avatar"><div class="compare-person" id="compareAfterPerson" data-gender="女性"></div><img id="compareAccessory" class="compare-accessory" alt="当前配饰" hidden></div><b id="compareAccessoryName">当前：无配饰</b></div></div></div>
-      <div class="feature tuning-feature"><label for="avatarScale">人物显示比例 <span id="avatarScaleValue">100%</span></label><input id="avatarScale" type="range" min="75" max="120" value="100"><label for="avatarTone">色调</label><select id="avatarTone"><option value="normal">原色</option><option value="warm">暖光</option><option value="cool">清凉</option><option value="soft">柔和</option></select></div>
-    </div>
-    <div class="stat-preview"><div><b id="socialStat">62</b><span>社交</span></div><div><b id="studyStat">62</b><span>学习</span></div><div><b id="exploreStat">62</b><span>探索</span></div><div><b id="energyStat">100</b><span>体力</span></div></div>
-    <button class="primary-btn" id="startCreation">确认角色，进入香港</button>
-  </div>
+<body class="intro-active">
+<div class="intro-overlay" id="introOverlay">
+  <iframe id="introFrame" src="intro/index.html" title="港硕回忆录开场：加载、主菜单、创建形象与导师对话" allow="autoplay"></iframe>
 </div>
-<div class="guide-overlay" id="guideOverlay"><div class="guide-stage"><div class="npc"><div class="npc-hair"></div><div class="npc-head"></div><div class="npc-body"></div><div class="staff"></div></div><div class="dialogue"><div class="npc-name">导师 NPC · 马老师</div><p id="guideText"></p><button id="guideNext">继续</button></div></div></div>
-<div class="dorm-overlay" id="dormOverlay"><div class="dorm-panel"><h2>选择宿舍出生点</h2><p>宿舍下就是你的第一天。不同区域影响初始交通与可探索地点。</p><div class="dorm-grid" id="dormGrid">
-<button class="dorm-card selected" data-dorm="港大太古堂" data-bonus="社交"><img src="assets/微信图片_20261126093323_112_1244.webp"><strong>太古堂宿舍</strong><small>港岛 · 商业区，社交路线加成</small></button>
-<button class="dorm-card" data-dorm="城大宿舍" data-bonus="学习"><img src="assets/微信图片_20261126093331_119_1244.webp"><strong>城大宿舍</strong><small>九龙 · 校园区，学习路线加成</small></button>
-<button class="dorm-card" data-dorm="理大宿舍" data-bonus="探索"><img src="assets/微信图片_20261126093323_114_1244.webp"><strong>理大宿舍</strong><small>维港 · 实践区，探索路线加成</small></button>
-<button class="dorm-card" data-dorm="浸大学舍" data-bonus="社交"><img src="assets/微信图片_20261126093323_113_1244.webp"><strong>浸大学舍</strong><small>九龙东 · 社区区，文化路线加成</small></button>
-<button class="dorm-card" data-dorm="科大宿舍" data-bonus="生活"><img src="assets/微信图片_20261126093323_117_1244.webp"><strong>科大宿舍</strong><small>清水湾 · 自然区，体力路线加成</small></button>
-<button class="dorm-card" data-dorm="岭南宿舍" data-bonus="生活"><img src="assets/微信图片_20261126093331_121_1244.webp"><strong>岭南宿舍</strong><small>离岛 · 海岸区，休闲路线加成</small></button>
-</div><button class="primary-btn" id="confirmDorm" style="margin-top:16px">从宿舍楼下出发</button></div></div>
+<script>
+/* 开场只播一次：同一标签页内刷新不再重播 */
+(function(){
+  var done = false;
+  try { done = sessionStorage.getItem('hong-kong-diary:intro-done') === '1'; } catch (e) {}
+  if (done) {
+    var o = document.querySelector('#introOverlay');
+    if (o) o.remove();
+    document.body.classList.remove('intro-active');
+  }
+})();
+</script>
 <div class="app">
 <aside class="rail"><div class="brand">香<br>港回忆录</div><nav class="railnav">
 <button class="navbtn active" data-screen="map"><span>⌖</span><span>地图</span></button>
@@ -114,21 +100,25 @@ function toast(t){const x=document.querySelector('#toast');x.textContent=t;x.cla
 document.querySelector('#backmap').onclick=()=>showScreen('map');document.querySelector('#closeStory').onclick=()=>showScreen('map');
 
 const creator={gender:'女性',traits:[],clothes:'日常校园',dorm:'港大太古堂',bonus:'社交',name:'林同学',stats:{social:62,study:62,explore:62,energy:100}};
-function recalcStats(){let s={social:62,study:62,explore:62,energy:100};document.querySelectorAll('#traitOptions button.selected').forEach(b=>{const [k,v]=b.dataset.stat.split(',');if(k==='社交')s.social+=Number(v);if(k==='学习')s.study+=Number(v);if(k==='探索')s.explore+=Number(v);if(k==='体力')s.energy+=Number(v)});const clothes=document.querySelector('#clothesOptions button.selected');creator.clothes=clothes?.dataset.clothes||'日常校园';if(clothes?.dataset.clue==='校园')s.study+=5;if(clothes?.dataset.clue==='社交')s.social+=8;if(clothes?.dataset.clue==='学习')s.study+=8;if(clothes?.dataset.clue==='探索')s.explore+=8;if(clothes?.dataset.clue==='生活')s.explore+=5;creator.traits=[...document.querySelectorAll('#traitOptions button.selected')].map(button=>button.dataset.trait);socialStat.textContent=s.social;studyStat.textContent=s.study;exploreStat.textContent=s.explore;energyStat.textContent=s.energy;creator.stats=s;previewAvatar.dataset.clothes=creator.clothes}
-document.querySelectorAll('#genderOptions button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#genderOptions button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');creator.gender=b.dataset.gender;avatarSheet.dataset.gender=creator.gender==='男性'?'男性':'女性'});
-document.querySelectorAll('#traitOptions button').forEach(b=>b.onclick=()=>{b.classList.toggle('selected');recalcStats()});
-document.querySelectorAll('#clothesOptions button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#clothesOptions button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');recalcStats()});
-recalcStats();
-const guideLines=[
-  '欢迎来到香港回忆录，林同学。这里没有固定的人生答案，你的选择会改变社交、学习与探索数值。',
-  '在地图上寻找闪亮节点：叮叮车、冰室、庙宇、书店、海滨等地点都能触发任务与回忆。',
-  '这是你的港硕手杖：它能记录线索、指引导师任务，并在宿舍与四大城区之间打开选择。'
-];let guideIndex=0;
-guideText.textContent=guideLines[0];
-document.querySelector('#guideNext').onclick=()=>{guideIndex++;if(guideIndex<guideLines.length){guideText.textContent=guideLines[guideIndex];if(guideIndex===2)document.querySelector('.staff').animate([{transform:'scale(.7) rotate(-20deg)'},{transform:'scale(1.2) rotate(8deg)'},{transform:'scale(1)'}],{duration:700});}else{guideOverlay.classList.remove('active');dormOverlay.classList.add('active')}};
-document.querySelector('#startCreation').onclick=()=>{creator.name=playerName.value.trim()||'林同学';state.playerStats={...creator.stats};state.energy=creator.stats.energy;document.querySelector('.brand').innerHTML=creator.name.slice(0,2)+'<br>港回忆录';guideLines[0]=`欢迎来到香港回忆录，${creator.name}。这里没有固定的人生答案，你的选择会改变社交、学习与探索数值。`;guideText.textContent=guideLines[0];onboarding.classList.add('hidden');guideOverlay.classList.add('active')};
-document.querySelectorAll('.dorm-card').forEach(b=>b.onclick=()=>{document.querySelectorAll('.dorm-card').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');creator.dorm=b.dataset.dorm;creator.bonus=b.dataset.bonus});
-confirmDorm.onclick=()=>{dormOverlay.classList.remove('active');state.dorm=creator.dorm;state.bonus=creator.bonus;if(creator.bonus==='社交')state.clues=0;if(creator.bonus==='学习')state.money+=200;if(creator.bonus==='探索')state.energy+=15;state.journal=`9月1日，晴。\n${creator.name}（${creator.gender}）在「${creator.dorm}」宿舍楼下开始港硕回忆。穿着${creator.clothes}，口袋里还有导师赠予的港硕手杖。`;const old=document.querySelector('.birth-marker');if(old)old.remove();const marker=document.createElement('div');marker.className='birth-marker';marker.style.setProperty('--x','46%');marker.style.setProperty('--y','74%');marker.textContent='⌂';mapCanvas.appendChild(marker);update();toast(`出生点：${creator.dorm} · 手杖已获得`)};
+
+/* 开场（唐倩茜「首页与导图」）在最后一页点击屏幕后，把姓名与性别带进街道 */
+function applyIntroProfile(){
+  let profile=null;
+  try{profile=JSON.parse(localStorage.getItem('hong-kong-diary:character')||'null');}catch(e){profile=null;}
+  if(!profile)return;
+  const introName=String(profile.name||'').trim();
+  if(introName)creator.name=introName;
+  creator.gender=profile.avatar==='male'?'男性':'女性';
+  const home=String(profile.home||'').trim();
+  if(home)creator.dorm=home;
+  state.playerAppearance={gender:creator.gender,outfit:'daily',accessory:'none',tone:'normal',scale:1};
+  const brand=document.querySelector('.brand');
+  if(brand)brand.innerHTML=creator.name.slice(0,2)+'<br>港回忆录';
+  state.journal='9月1日，晴。\n'+creator.name+'（'+creator.gender+'）拎着行李走进香港的街道，口袋里是导师给的港硕手帐。';
+  update();
+}
+window.applyIntroProfile=applyIntroProfile;
+applyIntroProfile();
 
 const mapPoints=[
  ['港大校门','港岛',18,18,'assets/微信图片_20261126093323_112_1244.webp','与校友打招呼，社交+8'],
@@ -149,10 +139,42 @@ const mapPoints=[
 ];
 const mapCanvas=document.querySelector('.mapcanvas');mapPoints.forEach((p,i)=>{const b=document.createElement('button');b.className='hotspot';b.style.left=p[2]+'%';b.style.top=p[3]+'%';b.dataset.title=p[0];b.dataset.region=p[1];b.dataset.desc=p[5];b.dataset.bg=p[4];b.textContent=p[0];b.onclick=()=>openHotspot(b);mapCanvas.appendChild(b)});
 function openHotspot(btn){const title=btn.dataset.title,desc=btn.dataset.desc,bg=btn.dataset.bg,region=btn.dataset.region;document.querySelector('#storybg').style.backgroundImage=`url('${bg}')`;document.querySelector('#placechip').textContent=`MAP POINT · ${region}`;document.querySelector('#storytitle').textContent=title;document.querySelector('#storytext').textContent=desc+'。当前角色：'+creator.name+'，宿舍：'+creator.dorm+'。';const box=document.querySelector('#choices');box.innerHTML='';[['停留互动','记录回忆并获得线索',4,-15],['继续探索','消耗更少港币，保存体力',3,-5]].forEach(c=>{const el=document.createElement('button');el.className='choice';el.innerHTML=`<strong>${c[0]}</strong><small>${c[1]}</small>`;el.onclick=()=>{if(!state.done['点:'+title]){state.done['点:'+title]=true;state.clues++;state.energy=Math.max(0,state.energy-c[2]);state.money=Math.max(0,state.money-c[3]);state.journal+=`\n\n${title}｜${region}\n${desc}。`;update();toast(title+' 已记录')}showScreen('map')};box.appendChild(el)});showScreen('story')}
-state.journal='等待角色创建……';update();
+update();
 </script>
 <script src="assets/room.js?v=2"></script>
 <script src="assets/story.js?v=2"></script>
 <script src="assets/adventure.js?v=26"></script>
-<script src="assets/experience.js?v=4"></script>
+<script src="assets/experience.js?v=5"></script>
+<script>
+/* 开场最后一页（选择宿舍）点击后，收起开场浮层，露出街道 */
+(function(){
+  var overlay = document.querySelector('#introOverlay');
+  if (!overlay) return;
+  var KEY = 'hong-kong-diary:intro-done';
+  var closing = false;
+  var ready = false;
+
+  function closeIntro(){
+    if (closing) return;
+    closing = true;
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    if (typeof window.applyIntroProfile === 'function') window.applyIntroProfile();
+    overlay.classList.add('leaving');
+    setTimeout(function(){
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      document.body.classList.remove('intro-active');
+    }, 430);
+  }
+
+  // 兜底：开场脚本若 12 秒内仍未就绪（例如被浏览器拦截），直接放行到街道
+  var guard = setTimeout(function(){ if (!ready) closeIntro(); }, 12000);
+
+  window.addEventListener('message', function(event){
+    var data = event.data;
+    if (!data || typeof data !== 'object') return;
+    if (data.type === 'hk-intro-ready') { ready = true; clearTimeout(guard); return; }
+    if (data.type === 'hk-intro-done') { ready = true; clearTimeout(guard); closeIntro(); }
+  });
+})();
+</script>
 </body></html>

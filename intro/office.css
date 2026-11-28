@@ -1,0 +1,155 @@
+.office-scene {
+  --scene-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.office-scene:focus {
+  outline: none;
+}
+
+.office-scene > .scene-art {
+  transform: scale(1.032);
+}
+
+.office-player {
+  position: absolute;
+  top: var(--player-feet, 96%);
+  left: 50%;
+  height: var(--player-height, 11%);
+  aspect-ratio: 156 / 282;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+
+.office-player-sprite {
+  width: 100%;
+  height: calc(100% * 320 / 282);
+  aspect-ratio: auto;
+  background: none;
+}
+
+.office-reaction {
+  position: absolute;
+  width: 4.6cqw;
+  height: auto;
+  transform: translateX(-50%);
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.player-reaction {
+  left: 50%;
+  bottom: 100%;
+}
+
+.teacher-reaction {
+  left: 50%;
+  bottom: 86%;
+}
+
+.office-reaction:not([hidden]) {
+  animation: office-reaction-in 360ms steps(5, end) both;
+}
+
+@keyframes office-reaction-in {
+  from { transform: translate(-50%, 22%) scale(0.75); opacity: 0; }
+  to { transform: translate(-50%, 0) scale(1); opacity: 1; }
+}
+
+.office-dialogue {
+  position: absolute;
+  inset: auto 11% 1.5%;
+  aspect-ratio: 1275 / 386;
+  font-family: "Microsoft YaHei", system-ui, sans-serif;
+  color: #45240f;
+  touch-action: manipulation;
+}
+
+.office-dialogue-button {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.office-dialogue-button:focus-visible {
+  outline: 2px solid #fff0b7;
+  outline-offset: -2px;
+}
+
+.office-dialogue-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.office-line {
+  position: absolute;
+  inset: 13% 40% 16% 4.5%;
+  text-align: left;
+  font-size: clamp(9px, 1.85cqw, 26px);
+  line-height: 1.45;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.office-portrait {
+  position: absolute;
+  left: 73%;
+  top: 18%;
+  width: 15%;
+  height: 50%;
+  object-fit: contain;
+  object-position: center;
+  image-rendering: pixelated;
+}
+
+.office-speaker {
+  position: absolute;
+  inset: 81% 5.4% 11.8% 67%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: min(19px, 1.28cqw, var(--speaker-fit, 1.28cqw));
+  line-height: 1;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .office-reaction:not([hidden]) { animation: none; }
+}
+
+.dorm-panel {
+  position: absolute;
+  inset: 26.3% 19% 17.8% 19.4%;
+  border-radius: 1cqw;
+  background: linear-gradient(160deg, #ffeac5, #ffdfa9);
+  box-shadow: 0 0 0.75cqw 0.25cqw #ffe2b2;
+}
+
+#dorm-heading {
+  position: absolute;
+  inset: 18.65% auto auto 42%;
+  width: 16%;
+  height: 5.2%;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(#c34c30, #a93723);
+  color: #fff3dd;
+  font-size: 2.65cqw;
+  line-height: 1;
+  text-shadow: 0 0.16cqw #652e1e;
+}
+
+#dorm-heading:focus {
+  outline: none;
+}
