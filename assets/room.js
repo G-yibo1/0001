@@ -7,12 +7,27 @@
       obstacles: [
         {left:.03,right:.22,top:.40,bottom:.58},{left:.25,right:.47,top:.39,bottom:.58},
         {left:.26,right:.47,top:.68,bottom:.82},{left:.74,right:.97,top:.34,bottom:.52},
-        {left:.72,right:.99,top:.62,bottom:.94},{left:.03,right:.22,top:.68,bottom:.90}
+        {left:.72,right:.99,top:.62,bottom:.94},{left:.03,right:.22,top:.68,bottom:.90},
+        {left:.76,right:.94,top:.46,bottom:.66}
       ],
+      // 布局对照 2026-11-26 旧版红茶冰室场景：厨师/服务员在后方灶台，婆婆坐在左侧靠窗小桌，
+      // 卡座与圆桌坐满客人，收银员在右侧收银柜后
       actors: [
-        ['waiter','点单服务员','waiter-front',.24,.63],['granny','拼桌婆婆','granny-front',.14,.63],
-        ['cashier','柜台店员','cashier-front',.84,.60],['eater','吃饭的客人','eater',.79,.30],
-        ['ordering','点餐的客人','ordering',.56,.47],['chef','后厨厨师','chef',.47,.17]
+        ['chef','后厨厨师','chef',.55,.17],
+        ['waiter','点单服务员','waiter-front',.45,.17],
+        ['granny','拼桌婆婆','granny-sit',.12,.36],
+        ['booth-a','卡座客人','eater-sit',.29,.56],
+        ['booth-b','卡座客人','ordering-sit',.39,.56],
+        ['table-r1','圆桌客人','eater-sit',.80,.50],
+        ['table-r2','圆桌客人','ordering-sit',.91,.50],
+        ['table-r3','圆桌客人','ordering-sit',.80,.64],
+        ['table-r4','圆桌客人','eater-sit',.91,.64],
+        ['booth-c','卡座客人','eater-sit',.10,.80],
+        ['booth-d','卡座客人','ordering-sit',.17,.80],
+        ['table-b1','圆桌客人','eater-sit',.30,.78],
+        ['table-b2','圆桌客人','ordering-sit',.42,.78],
+        ['table-b3','圆桌客人','eater-sit',.36,.84],
+        ['cashier','柜台店员','cashier-front',.78,.72]
       ]
     },
     harbour: {

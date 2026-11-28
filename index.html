@@ -26,7 +26,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#8fb6a6;i
 <link rel="stylesheet" href="assets/adventure.css">
 <link rel="stylesheet" href="assets/story.css">
 <link rel="stylesheet" href="assets/character.css">
-<link rel="stylesheet" href="assets/world.css?v=2">
+<link rel="stylesheet" href="assets/world.css?v=7">
 <link rel="stylesheet" href="assets/room.css?v=1">
 </head>
 <body>
@@ -151,8 +151,8 @@ const mapCanvas=document.querySelector('.mapcanvas');mapPoints.forEach((p,i)=>{c
 function openHotspot(btn){const title=btn.dataset.title,desc=btn.dataset.desc,bg=btn.dataset.bg,region=btn.dataset.region;document.querySelector('#storybg').style.backgroundImage=`url('${bg}')`;document.querySelector('#placechip').textContent=`MAP POINT · ${region}`;document.querySelector('#storytitle').textContent=title;document.querySelector('#storytext').textContent=desc+'。当前角色：'+creator.name+'，宿舍：'+creator.dorm+'。';const box=document.querySelector('#choices');box.innerHTML='';[['停留互动','记录回忆并获得线索',4,-15],['继续探索','消耗更少港币，保存体力',3,-5]].forEach(c=>{const el=document.createElement('button');el.className='choice';el.innerHTML=`<strong>${c[0]}</strong><small>${c[1]}</small>`;el.onclick=()=>{if(!state.done['点:'+title]){state.done['点:'+title]=true;state.clues++;state.energy=Math.max(0,state.energy-c[2]);state.money=Math.max(0,state.money-c[3]);state.journal+=`\n\n${title}｜${region}\n${desc}。`;update();toast(title+' 已记录')}showScreen('map')};box.appendChild(el)});showScreen('story')}
 state.journal='等待角色创建……';update();
 </script>
-<script src="assets/room.js?v=1"></script>
+<script src="assets/room.js?v=2"></script>
 <script src="assets/story.js?v=2"></script>
-<script src="assets/adventure.js?v=10"></script>
+<script src="assets/adventure.js?v=26"></script>
 <script src="assets/experience.js?v=4"></script>
 </body></html>

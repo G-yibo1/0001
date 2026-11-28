@@ -12,6 +12,9 @@
     <div class="adventure-viewport" id="adventureViewport"></div>`;
 
   const viewport = document.querySelector('#adventureViewport');
+  // 所有人物统一向上平移半个身高（主角 15vh 半身高 7.5%，NPC 为主角 95%≈14.25vh 半身高 7%）
+  const PLAYER_LIFT = 7.5;
+  const NPC_LIFT = 7;
   const backButton = document.querySelector('#atlasBack');
   const crumb = document.querySelector('#atlasCrumb');
   const hint = document.querySelector('#atlasHint');
@@ -61,29 +64,45 @@
   };
 
   const sceneImages = [1, 2, 3, 4, 5].map(index => `assets/maps/l3-tsim-sha-tsui/${String(index).padStart(2, '0')}.webp`);
+  // 街景背景图原始尺寸（5 段统一为 1268×714，object-fit:cover 显示）
+  const SCENE_IMAGE_W = 1268;
+  const SCENE_IMAGE_H = 714;
+  // sign：招牌在【对应街景图片里的像素矩形】，渲染时按 cover 换算到舞台坐标，保证高亮框与招牌像素级重合
   const eventLocations = [
-    { id: 'tea', title: '红茶冰室 · 买单小突发事件', icon: '🍵', x: 0.30, y: 0.76, scene: 1 },
-    { id: 'scam', title: '陌生来电 · 反诈骗情景模拟', icon: '☎', x: 0.12, y: 0.79, scene: 0 },
-    { id: 'harbour', title: '海港城 · 消失的现金', icon: '？', x: 0.72, y: 0.74, scene: 3 }
+    { id: 'tea', title: '红茶冰室 · 买单小突发事件', icon: '🍵', x: 0.28, y: 0.88, scene: 1,
+      sign: { panel: 1, px: 392, py: 360, pw: 188, ph: 53, label: '紅茶餐廳' } },
+    { id: 'scam', title: '陌生来电 · 反诈骗情景模拟', icon: '☎', x: 0.12, y: 0.87, scene: 0 },
+    { id: 'harbour', title: '海港城 · 消失的现金', icon: '？', x: 0.72, y: 0.88, scene: 3,
+      sign: { panel: 3, px: 526, py: 317, pw: 264, ph: 54, label: '海港城' } }
   ];
+  // 由像素矩形反推归一化世界坐标（仅用于触发距离判断）
+  eventLocations.forEach(item => {
+    if (!item.sign) return;
+    item.sign.x = (item.sign.panel + (item.sign.px + item.sign.pw / 2) / SCENE_IMAGE_W) / 5;
+    item.sign.w = (item.sign.pw / SCENE_IMAGE_W) / 5;
+  });
+  // 街道只允许在底部人行道窄带内移动（参考街道示意视频：脚底约在画面高度 84%–92%）
+  const STREET_Y_MIN = 0.84;
+  const STREET_Y_MAX = 0.92;
+  const clampStreetY = value => Math.min(STREET_Y_MAX, Math.max(STREET_Y_MIN, value));
   const walk = {
     x: 0.07, y: 0.82, target: null, direction: 'down', near: null,
     active: false, moving: false, shift: false, zoom: 1, cameraX: 0,
     keys: {left:false,right:false,up:false,down:false}, lastFrame: performance.now()
   };
   const streetNpcs = [
-    {id:'student',name:'赶路的学生',gender:'女性',x:.17,y:.68,speed:38,route:[{x:.17,y:.68,wait:1.4},{x:.22,y:.76,wait:.6},{x:.15,y:.72,wait:2.1}]},
-    {id:'resident',name:'附近居民',gender:'男性',x:.055,y:.89,speed:30,route:[{x:.055,y:.89,wait:2.4},{x:.10,y:.86,wait:1.2},{x:.08,y:.70,wait:1.8}]},
-    {id:'granny',name:'散步的婆婆',sprite:'granny',x:.32,y:.86,speed:20,route:[{x:.32,y:.86,wait:2.8},{x:.36,y:.82,wait:2.2},{x:.29,y:.80,wait:1.5}]},
-    {id:'photographer',name:'拍照的游客',gender:'女性',x:.51,y:.70,speed:34,route:[{x:.51,y:.70,wait:2.5},{x:.57,y:.75,wait:1.8},{x:.48,y:.84,wait:1.2}]},
-    {id:'commuter',name:'下班的行人',gender:'男性',x:.67,y:.87,speed:43,route:[{x:.67,y:.87,wait:.8},{x:.75,y:.84,wait:1.1},{x:.71,y:.68,wait:1.6}]},
-    {id:'wanderer',name:'海滨游客',gender:'女性',x:.88,y:.72,speed:32,route:[{x:.88,y:.72,wait:1.7},{x:.93,y:.82,wait:2.4},{x:.84,y:.86,wait:1.3}]},
-    {id:'waiter',name:'冰室服务员',sprite:'waiter',x:.25,y:.73,speed:31,route:[{x:.25,y:.73,wait:1.3},{x:.28,y:.86,wait:1.6},{x:.22,y:.82,wait:.9}]},
-    {id:'cashier',name:'外出采购的店员',sprite:'cashier',x:.40,y:.88,speed:27,route:[{x:.40,y:.88,wait:2.1},{x:.45,y:.82,wait:1.2},{x:.38,y:.74,wait:1.4}]},
-    {id:'classmate',name:'同行的同学',gender:'男性',x:.59,y:.86,speed:39,route:[{x:.59,y:.86,wait:.7},{x:.64,y:.78,wait:1.1},{x:.55,y:.80,wait:1.5}]},
-    {id:'tourist',name:'看地图的游客',gender:'女性',x:.77,y:.70,speed:29,route:[{x:.77,y:.70,wait:2.3},{x:.81,y:.78,wait:1.4},{x:.74,y:.85,wait:.8}]},
-    {id:'neighbour',name:'街坊邻居',sprite:'cashier',x:.91,y:.88,speed:25,route:[{x:.91,y:.88,wait:1.9},{x:.96,y:.84,wait:1.1},{x:.89,y:.76,wait:1.7}]},
-    {id:'server-break',name:'休息中的服务员',sprite:'waiter',x:.10,y:.70,speed:28,route:[{x:.10,y:.70,wait:2.2},{x:.13,y:.74,wait:1.3},{x:.06,y:.76,wait:1.2}]}
+    {id:'student',name:'赶路的学生',gender:'女性',x:.17,y:.88,speed:38,route:[{x:.17,y:.88,wait:1.4},{x:.22,y:.90,wait:.6},{x:.15,y:.86,wait:2.1}]},
+    {id:'resident',name:'附近居民',gender:'男性',x:.055,y:.90,speed:30,route:[{x:.055,y:.90,wait:2.4},{x:.10,y:.87,wait:1.2},{x:.08,y:.89,wait:1.8}]},
+    {id:'granny',name:'散步的婆婆',sprite:'granny',x:.32,y:.87,speed:20,route:[{x:.32,y:.87,wait:2.8},{x:.36,y:.89,wait:2.2},{x:.29,y:.85,wait:1.5}]},
+    {id:'photographer',name:'拍照的游客',gender:'女性',x:.51,y:.86,speed:34,route:[{x:.51,y:.86,wait:2.5},{x:.57,y:.89,wait:1.8},{x:.48,y:.88,wait:1.2}]},
+    {id:'commuter',name:'下班的行人',gender:'男性',x:.67,y:.89,speed:43,route:[{x:.67,y:.89,wait:.8},{x:.75,y:.86,wait:1.1},{x:.71,y:.90,wait:1.6}]},
+    {id:'wanderer',name:'海滨游客',gender:'女性',x:.88,y:.87,speed:32,route:[{x:.88,y:.87,wait:1.7},{x:.93,y:.90,wait:2.4},{x:.84,y:.88,wait:1.3}]},
+    {id:'waiter',name:'冰室服务员',sprite:'waiter',x:.25,y:.86,speed:31,route:[{x:.25,y:.86,wait:1.3},{x:.28,y:.90,wait:1.6},{x:.22,y:.88,wait:.9}]},
+    {id:'cashier',name:'外出采购的店员',sprite:'cashier',x:.40,y:.90,speed:27,route:[{x:.40,y:.90,wait:2.1},{x:.45,y:.87,wait:1.2},{x:.38,y:.89,wait:1.4}]},
+    {id:'classmate',name:'同行的同学',gender:'男性',x:.59,y:.88,speed:39,route:[{x:.59,y:.88,wait:.7},{x:.64,y:.86,wait:1.1},{x:.55,y:.90,wait:1.5}]},
+    {id:'tourist',name:'看地图的游客',gender:'女性',x:.77,y:.87,speed:29,route:[{x:.77,y:.87,wait:2.3},{x:.81,y:.89,wait:1.4},{x:.74,y:.86,wait:.8}]},
+    {id:'neighbour',name:'街坊邻居',sprite:'cashier',x:.91,y:.88,speed:25,route:[{x:.91,y:.88,wait:1.9},{x:.96,y:.90,wait:1.1},{x:.89,y:.86,wait:1.7}]},
+    {id:'server-break',name:'休息中的服务员',sprite:'waiter',x:.10,y:.86,speed:28,route:[{x:.10,y:.86,wait:2.2},{x:.13,y:.89,wait:1.3},{x:.06,y:.87,wait:1.2}]}
   ].map((npc,index) => ({...npc,direction:'down',moving:false,routeIndex:1,wait:index*.32}));
   const phoneStoryboards = {call:'01',first:'02',second:'03',argue:'04',pass:'05',fail:'06'};
   let currentMap = 'l1';
@@ -145,16 +164,19 @@
   function setL3Map() {
     currentMap = 'l3';
     crumb.textContent = 'L3 · 尖沙咀步行街';
-    hint.textContent = 'WASD 四向行走 · Shift 奔跑 · F 互动';
+    hint.textContent = '←→ / AD 行走 · Shift 奔跑 · F 互动';
     backButton.disabled = false;
     viewport.innerHTML = `<div class="street-stage" id="streetStage"><div class="walk-strip" id="walkStrip">${sceneImages.map((src,index)=>`<div class="walk-panel"><img src="${src}" alt="尖沙咀街区场景 ${index+1}"><div class="walk-shade"></div></div>`).join('')}</div>
       <div class="street-warmth" aria-hidden="true"></div><div class="street-pavement" aria-hidden="true"></div>
       <div class="street-video-controls"><button type="button" id="streetZoomOut" aria-label="缩小街区">−</button><button type="button" id="streetZoomIn" aria-label="放大街区">+</button></div>
-      ${eventLocations.map(item => `<div class="walk-marker" data-event="${item.id}" title="${item.title}"><button type="button" aria-label="靠近后互动：${item.title}">!</button><small>${item.title.split(' · ')[0]}</small></div>`).join('')}
+      ${eventLocations.map(item => item.sign
+        ? `<div class="sign-glow" data-event="${item.id}" data-sign="1" title="${item.title}"><i class="sign-alert" aria-hidden="true">!</i></div>`
+        : `<div class="walk-marker" data-event="${item.id}" title="${item.title}"><button type="button" aria-label="靠近后互动：${item.title}">!</button><small>${item.title.split(' · ')[0]}</small></div>`
+      ).join('')}
       ${streetNpcs.map(npc => `<div class="street-npc" data-npc="${npc.id}" data-facing="down" title="${npc.name} · 自主巡游"><img src="${npcDirectionalSprite(npc, 'down')}" alt="${npc.name}"><span>${npc.name}</span></div>`).join('')}
       <div class="adventure-player" id="adventurePlayer" aria-label="玩家角色" data-facing="down"><div class="walk-player-sprite" id="walkPlayerSprite"></div><span class="player-name">你</span></div>
       </div>
-      <div class="walk-hud"><span id="walkPosition">尖沙咀 · 09:00</span><span id="walkPrompt">WASD / 方向键四向移动</span><div class="walk-actions"><button type="button" id="walkUp" aria-label="向上移动">↑</button><button type="button" id="walkLeft" aria-label="向左移动">←</button><button type="button" id="interactButton" hidden>F 互动</button><button type="button" id="walkRight" aria-label="向右移动">→</button><button type="button" id="walkDown" aria-label="向下移动">↓</button></div></div>`;
+      <div class="walk-hud"><span id="walkPosition">尖沙咀 · 09:00</span><span id="walkPrompt">←→ 或 A/D 沿街移动</span><div class="walk-actions"><button type="button" id="walkLeft" aria-label="向左移动">←</button><button type="button" id="interactButton" hidden>F 互动</button><button type="button" id="walkRight" aria-label="向右移动">→</button></div></div>`;
     document.querySelector('#worldFullscreen')?.remove();
     const fullscreenButton = document.createElement('button');
     fullscreenButton.type = 'button';
@@ -170,7 +192,7 @@
     };
     walk.active = true;
     walk.x = 0.07;
-    walk.y = 0.82;
+    walk.y = 0.88;
     walk.target = null;
     Object.keys(walk.keys).forEach(key => { walk.keys[key] = false; });
     walk.near = null;
@@ -189,6 +211,15 @@
     viewport.querySelector('#streetZoomOut').onclick = () => setWalkZoom(walk.zoom - .1);
     eventLocations.forEach(item => {
       const marker = viewport.querySelector(`[data-event="${item.id}"]`);
+      if (item.sign) {
+        marker.onclick = () => {
+          if (walk.near === item.id) beginEvent(item.id);
+          else moveToLocation(item);
+        };
+        marker.style.cursor = 'pointer';
+        marker.style.pointerEvents = 'auto';
+        return;
+      }
       marker.querySelector('button').onclick = () => {
         if (walk.near === item.id) beginEvent(item.id);
         else moveToLocation(item);
@@ -199,15 +230,13 @@
     };
     viewport.querySelector('#walkLeft').onclick = () => movePlayer(-1, 0);
     viewport.querySelector('#walkRight').onclick = () => movePlayer(1, 0);
-    viewport.querySelector('#walkUp').onclick = () => movePlayer(0, -1);
-    viewport.querySelector('#walkDown').onclick = () => movePlayer(0, 1);
     viewport.querySelector('#streetStage').addEventListener('pointerdown', event => {
-      if (event.target.closest('button,.walk-marker')) return;
+      if (event.target.closest('button,.walk-marker,.sign-glow')) return;
       const bounds = event.currentTarget.getBoundingClientRect();
       const worldWidth = bounds.width * 5 * walk.zoom;
       walk.target = {
         x: Math.min(.97, Math.max(.03, (event.clientX - bounds.left + walk.cameraX) / worldWidth)),
-        y: Math.min(.91, Math.max(.61, (event.clientY - bounds.top) / bounds.height))
+        y: clampStreetY((event.clientY - bounds.top) / bounds.height)
       };
       requestWalkFrame();
     });
@@ -275,7 +304,7 @@
       const element = viewport.querySelector(`[data-npc="${npc.id}"]`);
       if (!element) return;
       element.style.left = `${npc.x * worldWidth - walk.cameraX}px`;
-      element.style.bottom = `${(1 - npc.y) * 100}%`;
+      element.style.bottom = `${(1 - npc.y) * 100 + NPC_LIFT}%`;
       element.style.zIndex = String(100 + Math.round(npc.y * 100));
       element.dataset.facing = npc.direction;
       element.classList.toggle('is-walking', npc.moving);
@@ -305,7 +334,7 @@
     strip.style.transform = `scale(${walk.zoom})`;
     renderStreetNpcs(worldWidth);
     player.style.left = `${playerWorldX - walk.cameraX}px`;
-    player.style.setProperty('bottom', `${(1 - walk.y) * 100}%`, 'important');
+    player.style.setProperty('bottom', `${(1 - walk.y) * 100 + PLAYER_LIFT}%`, 'important');
     player.style.zIndex = String(100 + Math.round(walk.y * 100));
     player.dataset.facing = walk.direction;
     player.classList.toggle('is-walking', walk.moving);
@@ -319,13 +348,39 @@
     const step = walk.moving ? Math.floor(performance.now() / 150) % 2 : 0;
     sprite.style.backgroundImage = `url('${directionalSprite(gender, walk.direction, step)}')`;
     player.querySelector('.player-name').textContent = creator.name || '你';
-    const currentItem = eventLocations.find(item => Math.abs(walk.x - item.x) < .027 && Math.abs(walk.y - item.y) < .14);
+    const currentItem = eventLocations.find(item => item.sign
+      ? Math.abs(walk.x - item.sign.x) < item.sign.w / 2 + .014
+      : Math.abs(walk.x - item.x) < .027 && Math.abs(walk.y - item.y) < .14);
     walk.near = currentItem?.id || null;
     eventLocations.forEach(item => {
       const marker = viewport.querySelector(`[data-event="${item.id}"]`);
       const completed = Boolean(state.specialEvents?.[item.id]);
+      if (item.sign) {
+        // 按背景图 object-fit:cover 的实际显示方式换算，招牌矩形才能与画面像素级重合
+        const panelW = viewportWidth * walk.zoom;
+        const panelH = stageHeight * walk.zoom;
+        const coverScale = Math.max(panelW / SCENE_IMAGE_W, panelH / SCENE_IMAGE_H);
+        const offsetX = (panelW - SCENE_IMAGE_W * coverScale) / 2;
+        const offsetY = (panelH - SCENE_IMAGE_H * coverScale) / 2;
+        const panelTop = (stageHeight - panelH) / 2;
+        const left = -walk.cameraX + item.sign.panel * panelW + offsetX + item.sign.px * coverScale;
+        const top = panelTop + offsetY + item.sign.py * coverScale;
+        const width = item.sign.pw * coverScale;
+        const height = item.sign.ph * coverScale;
+        marker.style.left = `${left}px`;
+        marker.style.width = `${width}px`;
+        marker.style.height = `${height}px`;
+        marker.style.setProperty('bottom', `${stageHeight - top - height}px`, 'important');
+        marker.style.zIndex = '60';
+        marker.classList.toggle('is-near', walk.near === item.id);
+        marker.classList.toggle('done', completed);
+        const alert = marker.querySelector('.sign-alert');
+        alert.textContent = completed ? '✓' : '!';
+        alert.hidden = completed || walk.near !== item.id;
+        return;
+      }
       marker.style.left = `${item.x * worldWidth - walk.cameraX}px`;
-      marker.style.setProperty('bottom', `${(1 - item.y) * 100}%`, 'important');
+      marker.style.setProperty('bottom', `${(1 - item.y) * 100 + NPC_LIFT}%`, 'important');
       marker.style.zIndex = String(90 + Math.round(item.y * 100));
       marker.classList.toggle('is-near', walk.near === item.id);
       marker.classList.toggle('done', completed);
@@ -333,7 +388,10 @@
     });
     const prompt = viewport.querySelector('#walkPrompt');
     const interact = viewport.querySelector('#interactButton');
-    prompt.textContent = walk.near ? '已到达地点 · 按 F 开始对话' : 'WASD / 方向键四向移动 · 点击地面前往';
+    const nearSign = currentItem?.sign;
+    prompt.textContent = walk.near
+      ? (nearSign ? `已到达${nearSign.label} · 按 F 进入` : '已到达地点 · 按 F 开始对话')
+      : '←→ 或 A/D 沿街移动 · 点击地面前往';
     interact.hidden = !walk.near;
     viewport.querySelector('#walkPosition').textContent = `尖沙咀 · ${walk.x > .43 ? '13:30' : '09:00'}${walk.shift ? ' · 奔跑' : ''}`;
     if (walk.x > .43 && !state.specialEvents?.scam && !activeEvent && !scamAutoShown) {
@@ -348,7 +406,7 @@
     faceMovement(horizontal, vertical, stage.clientWidth * 5 * walk.zoom, stage.clientHeight);
     walk.target = {
       x: Math.min(.97, Math.max(.03, walk.x + horizontal * .055)),
-      y: Math.min(.91, Math.max(.61, walk.y + vertical * .10))
+      y: clampStreetY(walk.y + vertical * .10)
     };
     requestWalkFrame();
   }
@@ -359,7 +417,7 @@
   }
 
   function moveToLocation(item) {
-    walk.target = {x:item.x, y:Math.min(.91, item.y + .025)};
+    walk.target = {x:item.x, y:clampStreetY(item.y + .025)};
     const stage = viewport.querySelector('#streetStage');
     faceMovement(item.x - walk.x, item.y - walk.y, stage.clientWidth * 5 * walk.zoom, stage.clientHeight);
     toast(`前往${item.title.split(' · ')[0]}，靠近后按 F 互动`);
@@ -394,7 +452,7 @@
         dy /= length;
         faceMovement(dx, dy, worldWidth, stageHeight);
         walk.x = Math.min(.97, Math.max(.03, walk.x + dx * speed / worldWidth));
-        walk.y = Math.min(.91, Math.max(.61, walk.y + dy * speed / stageHeight));
+        walk.y = clampStreetY(walk.y + dy * speed / stageHeight);
         walk.moving = true;
       } else if (walk.target) {
         const targetDx = walk.target.x - walk.x;
@@ -457,7 +515,7 @@
       document.querySelector('#bagText').textContent = `${result.achievement ? `成就：${result.achievement}\n` : ''}${result.items?.length ? `事件物品：${result.items.join('、')}` : ''}`;
     }
     eventStage = result.pass ? 'pass' : 'fail';
-    if (result.returnToStart) { walk.x = .07; walk.y = .82; walk.target = null; }
+    if (result.returnToStart) { walk.x = .07; walk.y = .88; walk.target = null; }
     clearInterval(dialogueTimer);
     dialogueTimer = null;
     const xpChange = result.xp || 0;
@@ -674,11 +732,12 @@
   document.addEventListener('keydown', event => {
     if (currentMap !== 'l3' || !walk.active || worldIsPaused()) return;
     const key = event.key.toLowerCase();
+    // 街道仅保留左右移动；上下（W/S/↑/↓）在街道禁用，室内场景仍支持完整 WASD
     if (['arrowleft','arrowright','arrowup','arrowdown','w','a','s','d'].includes(key)) event.preventDefault();
     if (key === 'arrowleft' || key === 'a') walk.keys.left = true;
     if (key === 'arrowright' || key === 'd') walk.keys.right = true;
-    if (key === 'arrowup' || key === 'w') walk.keys.up = true;
-    if (key === 'arrowdown' || key === 's') walk.keys.down = true;
+    if (key === 'arrowup' || key === 'w') walk.keys.up = false;
+    if (key === 'arrowdown' || key === 's') walk.keys.down = false;
     requestWalkFrame();
   });
   document.addEventListener('keyup', event => {

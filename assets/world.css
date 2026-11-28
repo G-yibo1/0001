@@ -27,6 +27,13 @@ body:has(#map.active) .adventure-viewport{inset:0;border:0;border-radius:0}
 .walk-marker{bottom:19%;transition:filter .15s}
 .walk-marker button{border-color:#5b3c28;background:#f1c75b;box-shadow:3px 3px 0 rgba(70,43,25,.55)}
 .walk-marker small{border:2px solid #6b4930;background:#f2e1bb;color:#4b3526;box-shadow:2px 2px 0 rgba(70,43,25,.35)}
+/* 建筑物招牌交互高亮：走到建筑前，招牌由正常变为边缘高亮并冒出感叹号 */
+.sign-glow{position:absolute;z-index:60;box-sizing:border-box;border:2px solid transparent;border-radius:3px;pointer-events:none;opacity:0;transition:opacity .18s,border-color .18s,box-shadow .18s,background .18s}
+.sign-glow.is-near{opacity:1;border-color:#ffe9a8;background:rgba(255,224,150,.06);box-shadow:0 0 0 2px rgba(255,214,120,.55),0 0 18px 4px rgba(255,205,92,.72),inset 0 0 14px rgba(255,224,150,.45);animation:sign-pulse 1.1s steps(2,end) infinite}
+.sign-glow.done{opacity:.4;border-color:rgba(255,233,168,.5);box-shadow:none;animation:none}
+.sign-glow .sign-alert{position:absolute;left:50%;top:0;box-sizing:border-box;transform:translate(-50%,-118%);display:grid;place-items:center;width:26px;height:26px;border:3px solid #263d35;border-radius:5px;background:#ffdc6b;color:#263d35;font:bold 18px/1 monospace;font-style:normal;box-shadow:2px 2px 0 rgba(26,43,38,.5);animation:sign-alert-bob .75s steps(2,end) infinite}
+@keyframes sign-alert-bob{50%{transform:translate(-50%,-118%) translateY(-5px)}}
+@keyframes sign-pulse{50%{box-shadow:0 0 0 3px rgba(255,214,120,.8),0 0 26px 8px rgba(255,205,92,.9),inset 0 0 20px rgba(255,224,150,.6)}}
 .walk-hud{z-index:1000;left:14px!important;right:14px!important;bottom:84px!important;align-items:flex-end}
 .walk-hud span{border:3px solid #63452f;border-radius:4px;background:rgba(242,225,187,.95);box-shadow:3px 3px 0 rgba(63,42,28,.35);color:#4b3526}
 .walk-actions{display:flex;gap:5px;pointer-events:auto}
@@ -36,7 +43,7 @@ body:has(#map.active) .hotbar{z-index:1001;bottom:14px}
 body:has(#map.active) .game-hud{z-index:1001}
 body:has(#map.active) .toast{z-index:1100}
 body:has(.event-overlay.open) .hotbar{display:none}
-.street-npc{position:absolute;width:clamp(42px,4.4vw,64px);height:clamp(70px,12.5vh,106px);transform:translateX(-50%);filter:drop-shadow(2px 4px 0 rgba(35,39,29,.28));pointer-events:auto;cursor:default}
+.street-npc{position:absolute;width:clamp(47.5px,4.94vw,72px);height:clamp(78px,14.25vh,120px);transform:translateX(-50%);filter:drop-shadow(2px 4px 0 rgba(35,39,29,.28));pointer-events:auto;cursor:default}
 .street-npc img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;image-rendering:pixelated;transform-origin:center bottom}
 .street-npc[data-facing="right"] img{transform:scaleX(-1)}
 .street-npc.is-walking img{animation:world-step .48s steps(2,end) infinite}
@@ -44,4 +51,4 @@ body:has(.event-overlay.open) .hotbar{display:none}
 .street-npc:hover span,.street-npc:focus-within span{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:900px){.adventure-toolbar{max-width:calc(100% - 28px);top:10px}.map-hint{display:none}.street-video-controls{top:72px}.walk-hud{bottom:79px!important}.walk-hud>#walkPosition{display:none}#walkPrompt{left:0;transform:none;max-width:52%;white-space:normal}.adventure-player{width:48px!important;height:88px!important}.player-name{display:none}}
 @media(max-width:560px){.adventure-toolbar{right:8px;left:8px;padding:5px;gap:5px}.adventure-toolbar button{padding:0 7px;font-size:10px}.map-crumb{font-size:10px}.street-video-controls{right:9px;top:64px}.walk-hud{left:8px!important;right:8px!important;bottom:73px!important}.walk-actions{gap:3px}.walk-hud button{min-width:32px;min-height:34px;padding:5px 8px}#walkPrompt{font-size:8px;bottom:44px;max-width:100%;background:rgba(242,225,187,.88)}.hotbar-slot:nth-child(n+9){display:none}}
-@media(prefers-reduced-motion:reduce){.adventure-player.is-walking .walk-player-sprite,.walk-marker button{animation:none}}
+@media(prefers-reduced-motion:reduce){.adventure-player.is-walking .walk-player-sprite,.walk-marker button,.sign-glow.is-near,.sign-glow .sign-alert{animation:none}}
